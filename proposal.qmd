@@ -1,1 +1,58 @@
+# ***Proposal for StatProg2 Projekt***
 
+#### by Lukas Seibold and Felix Obermaier
+
+## Dataset and research questions:
+
+-   **Source and licence:**
+
+    -   The Data set is from the following website: [OWID - Covid Dataset](https://ourworldindata.org/explorers/covid?Metric=Excess+mortality+%28estimates%29&Interval=Cumulative&Relative+to+population=true&country=USA~BRA~JPN~DEU)
+
+    -   It can be downloaded in the following github repository: [OWID - github repository COVID](https://github.com/owid/covid-19-data/tree/master/public/data)
+
+    -   The dataset is called owid-covid-data.csv
+
+    -   The Dataset contains all Data on Covid in the years 2020 - 2024 in all countries of the world
+
+    -   We decided we only want to look at german Data on covid so we filtered it by country
+
+```{r}
+library(readr)
+
+covid <- read_delim("C:/Users/lukas/StatProg2/PROJEKT/Covid Datasets/owid-covid-data.csv")
+
+```
+
+```{r}
+library(tidyverse)
+
+covid_germany <- covid %>% filter(location == "Germany")
+```
+
+-   **Licence:**
+
+    -   The *Our World in Data Covid Dataset* combines COVID-19 data from several official and scientific sources, including:
+
+        -   [Johns Hopkins University (JHU CSSE)](https://github.com/CSSEGISandData/COVID-19?utm_source=chatgpt.com) for confirmed cases and deaths
+
+        -   official national health authorities for vaccination and hospitalization data
+
+        -   the [Oxford COVID‑19 Government Response Tracker](https://www.bsg.ox.ac.uk/research/research-projects/covid-19-government-response-tracker?utm_source=chatgpt.com) for policy measures
+
+        -   international organizations such as the UN, World Bank, OECD, and IHME for demographic and socioeconomic indicators.
+
+        The dataset is published under the **Creative Commons Attribution (CC BY) license**.
+
+        This license allows users to:
+
+        -   use the data freely,
+
+        -   copy and redistribute it,
+
+        -   modify and adapt it,
+
+        -   use it commercially,
+
+        -   and include it in research or presentations,
+
+        as long as proper attribution to Our World in Data and the original data sources is provided.
