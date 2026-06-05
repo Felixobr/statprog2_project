@@ -56,3 +56,64 @@ covid_germany <- covid %>% filter(location == "Germany")
         -   and include it in research or presentations,
 
         as long as proper attribution to Our World in Data and the original data sources is provided.
+
+## What is in the data set?
+
+The data set contains daily COVID-19 observations for Germany from January 2020 until August 2024.
+
+-   Number of rows: 1674
+-   Number of columns: 67
+
+Each row represents one day of reported COVID-19 data in Germany.
+
+The data set includes information on:
+
+-   COVID-19 cases (e.g. `total_cases`, `new_cases`, `new_cases_smoothed`)
+-   COVID-19 deaths (e.g. `total_deaths`, `new_deaths`)
+-   Reproduction rate (`reproduction_rate`)
+-   Hospital and ICU patients (`hosp_patients`, `icu_patients`)
+-   Vaccination indicators
+-   Testing statistics
+-   Socioeconomic indicators and demographic variables
+
+The key variables we expect to use are:
+
+-   `date`
+-   `new_cases`
+-   `new_cases_smoothed`
+-   `total_cases`
+-   `new_deaths`
+-   `total_deaths`
+-   `reproduction_rate`
+
+## Research Questions
+
+### Question 1: How did vaccination coverage in Germany develop during the COVID-19 pandemic?
+
+**Claim type:** Descriptive
+
+We aim to describe how vaccination coverage changed between 2020 and 2024. In particular, we want to identify important phases of the vaccination campaign and examine how quickly vaccination rates increased over time.
+
+------------------------------------------------------------------------
+
+### Question 2: Are higher vaccination rates associated with lower COVID-19 mortality in Germany?
+
+**Claim type:** Exploratory
+
+We investigate whether periods with higher vaccination coverage tend to be associated with lower COVID-19 death rates. The goal is to identify possible patterns and relationships in the data without making strong causal claims.
+
+------------------------------------------------------------------------
+
+### Question 3: Are higher vaccination rates associated with lower numbers of ICU patients in Germany?
+
+**Claim type:** Exploratory
+
+We explore whether increased vaccination coverage is related to lower numbers of COVID-19 patients in intensive care units. This analysis may provide insights into the relationship between vaccination uptake and healthcare system burden.
+
+## Audience and Context
+
+This analysis is conducted in an academic setting as part of a data science and statistical programming project. The goal is to explore COVID-19 vaccination trends in Germany and investigate possible relationships between vaccination coverage, mortality, and intensive care unit (ICU) occupancy.
+
+The primary audience consists of students, instructors, and individuals interested in understanding the development of vaccination campaigns during the COVID-19 pandemic. The analysis aims to communicate findings in a clear, accessible, and data-driven manner.
+
+The results will be presented through a GitHub-hosted website created with Quarto. Appropriate presentation formats include interactive and static visualizations, time-series plots, scatter plots, statistical summaries, and brief written interpretations. This format allows the audience to explore the results and understand the key findings through both text and graphics.
