@@ -21,3 +21,34 @@ library(skimr)
 skim = skim(covid_germany)
 view(skim)
 ```
+
+```{r}
+install.packages("naniar")
+library(naniar)
+
+# Summary of missings by variable
+miss_var_summary(covid_germany)
+
+# Visualise missing pattern
+vis_miss(covid_germany)
+```
+
+Für Aufgabe 3:
+
+Einige Variablen haben **gar keine Daten** für Deutschland (`hosp_patients`, `extreme_poverty`, `handwashing_facilities` → komplett schwarz).
+
+-   Impfvariablen haben erst später Werte → unten grau, oben schwarz.
+
+-   ICU-Variablen haben viele, aber nicht alle Missing Values.
+
+-   Die Missing Values treten häufig **blockweise über die Zeit** auf und nicht zufällig.
+
+```{r}
+summary(covid_germany$people_vaccinated_per_hundred)
+
+summary(covid_germany$people_fully_vaccinated_per_hundred)
+
+summary(covid_germany$icu_patients)
+
+summary(covid_germany$new_deaths)
+```
