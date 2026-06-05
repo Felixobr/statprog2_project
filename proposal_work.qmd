@@ -1,0 +1,23 @@
+---
+title: "test covid data"
+format: html
+editor: visual
+---
+
+## Test
+
+```{r}
+library(tidyverse)
+library(readr)
+
+covid_germany = read_delim("covid_germany.csv")
+view(covid_germany)
+```
+
+```{r}
+install.packages("skimr")
+library(skimr)
+
+skim = skim(covid_germany)
+view(skim)
+```
