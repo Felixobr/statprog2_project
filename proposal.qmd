@@ -117,3 +117,12 @@ This analysis is conducted in an academic setting as part of a data science and 
 The primary audience consists of students, instructors, and individuals interested in understanding the development of vaccination campaigns during the COVID-19 pandemic. The analysis aims to communicate findings in a clear, accessible, and data-driven manner.
 
 The results will be presented through a GitHub-hosted website created with Quarto. Appropriate presentation formats include interactive and static visualizations, time-series plots, scatter plots, statistical summaries, and brief written interpretations. This format allows the audience to explore the results and understand the key findings through both text and graphics.
+
+## Domain-informed quality checks
+
+We examined the key variables used in our analysis.
+
+-   Vaccination rates (`people_vaccinated_per_hundred` and `people_fully_vaccinated_per_hundred`) range from 0 to approximately 78 percent, which is within plausible bounds.
+-   ICU patient counts range from 100 to 5761 and contain no negative values.
+-   Daily death counts are non-negative, although some unusually large values appear and may reflect reporting corrections or delayed reporting.
+-   Several variables contain missing values. Vaccination variables have more than 800 missing observations, while ICU patient counts and death counts also contain missing data. These missing values are likely related to changes in reporting availability over time. Some variables are completely missing for Germany and will therefore not be used in the analysis.
