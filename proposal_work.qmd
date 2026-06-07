@@ -52,3 +52,7 @@ summary(covid_germany$icu_patients)
 
 summary(covid_germany$new_deaths)
 ```
+
+```{r}
+install.packages("patchwork")
+```

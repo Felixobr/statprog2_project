@@ -18,15 +18,10 @@
 
 ```{r}
 library(readr)
-
-covid <- read_delim("C:/Users/lukas/StatProg2/PROJEKT/Covid Datasets/owid-covid-data.csv")
-
-```
-
-```{r}
 library(tidyverse)
 
-covid_germany <- covid %>% filter(location == "Germany")
+covid_germany = read_delim("data/covid_germany.csv")
+
 ```
 
 -   **Licence:**
@@ -126,3 +121,34 @@ We examined the key variables used in our analysis.
 -   ICU patient counts range from 100 to 5761 and contain no negative values.
 -   Daily death counts are non-negative, although some unusually large values appear and may reflect reporting corrections or delayed reporting.
 -   Several variables contain missing values. Vaccination variables have more than 800 missing observations, while ICU patient counts and death counts also contain missing data. These missing values are likely related to changes in reporting availability over time. Some variables are completely missing for Germany and will therefore not be used in the analysis.
+
+##EDA-Plots
+```{r}
+library(ggplot2)
+
+ggplot(covid_germany, aes(x = new_deaths_smoothed)) +
+  geom_histogram(bins = 30) +
+  labs(
+    title = "Distribution of Daily COVID-19 deaths",
+    x = "Daily deaths (7-day average)",
+    y = "Count"
+  )
+
+```
+The distribution of daily COVID-19 deaths is right-skewed. Most observations correspond to relatively low numbers of deaths, while a small number of days experienced substantially higher mortality. This indicates considerable variation in COVID-19 mortality over time.
+
+```{r}
+ggplot(covid_germany, aes(x = date)) +
+  geom_line(aes(y = new_cases_smoothed, colour = "Cases")) +
+  geom_line(aes(y = new_deaths_smoothed * 100, colour = "Deaths x 100")) +
+  scale_colour_manual(
+    values = c("Cases" = "blue", "Deaths x 100" = "red")
+  ) +
+  labs(
+    title = "COVID-19 cases and deaths over time",
+    x = "Date",
+    y = "Daily cases / deaths x 100",
+    colour = ""
+  )
+```
+Both COVID-19 cases and deaths exhibit clear wave-like patterns over time. Peaks in deaths generally occur shortly after peaks in reported cases, suggesting a temporal relationship between infection levels and mortality.
