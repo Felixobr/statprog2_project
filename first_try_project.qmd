@@ -1,0 +1,59 @@
+---
+title: "first_try_project"
+author: "Felix"
+format: html
+editor: visual
+---
+
+# general points:
+
+-   hosp_patients can be deleted as well as hosp_patients_per_million
+-   
+
+## try to answer questions: \## Question 1: How did vaccination coverage in Germany develop during the COVID-19 pandemic?
+
+**Claim type:** Descriptive
+
+We aim to describe how vaccination coverage changed between 2020 and 2024. In particular, we want to identify important phases of the vaccination campaign and examine how quickly vaccination rates increased over time.
+
+Mostly it´s better to work with the smoothed data columns. Argue why!
+
+Something like: There may be days, like sunday or holidays, when no new cases/deaths/ numbers in general got added to any statistics. IN the smoothed version these days do not exist because in the mean over more days these days don´t matter. Aso new cases have only been added to our statistics sundays, so on every other day we have 0 new cases, what is obvious not true, so with the smoothed verison we get at least the mean for evrey day per week, what is exactly enough for our project.
+
+At first it is interesting, when the first person was vaccinated.
+
+```{r}
+library(tidyverse)
+```
+
+Now we can only look at the time, in which people got vaccinated. Here we can create a lineplot with new-vaccinated_smoothed on y axis.
+
+```{r}
+covid_germany %>% ggplot(aes(x = date, y = new_vaccinations_smoothed))+geom_line()
+
+```
+
+Also while taking a look at new_cases_smoothed or new_death_smoothed
+
+```{r}
+covid_germany %>% ggplot(aes(x = date))+
+                           geom_line(aes(y = new_vaccinations_smoothed))+
+                           geom_line(aes(y = new_cases_smoothed))
+
+
+```
+
+```{r}
+covid_germany %>% ggplot(aes(x = date, 
+                             y = hosp_patients))+
+  geom_line()
+
+```
+
+To address this question, we will analyse the following variables:
+
+-   `date`
+-   `new_vaccinations(_smoothed)`,
+-   `people_fully_vaccinated(_smoothed)_per_hundred`
+
+and similar ones.
