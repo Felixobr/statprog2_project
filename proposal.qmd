@@ -4,7 +4,7 @@
 
 ## Dataset and research questions:
 
-- **Source and licence:**
+- **Source:**
 
   - The Data set is from the following website: [OWID - Covid Dataset](https://ourworldindata.org/explorers/covid?Metric=Excess+mortality+%28estimates%29&Interval=Cumulative&Relative+to+population=true&country=USA~BRA~JPN~DEU)
 
@@ -95,7 +95,7 @@ We will analyse `people_fully_vaccinated_per_hundred` together with `new_vaccina
 
 **Goal:** Descriptive
 
-**Type:** Confirmatory
+**Type:** Exploratory
 
 ------------------------------------------------------------------------
 
@@ -150,7 +150,7 @@ covid_germany %>%
   select(
     date, total_cases, new_cases, new_cases_smoothed,
     total_deaths, new_deaths, new_deaths_smoothed,
-    reproduction_rate, icu_patients, hosp_patients,
+    reproduction_rate, icu_patients,
     people_vaccinated_per_hundred, people_fully_vaccinated_per_hundred,
     stringency_index
   ) %>%
@@ -275,7 +275,7 @@ covid_germany %>%
   summarise(max_gap = max(gap, na.rm = TRUE))
 ```
 
-The Data coverage on vaccination stars in January of 2021 and ends in July of 2023. In this time range the data coverage is very good with a maximum gap of 1 day without coverage.
+The Data coverage on vaccination starts in January of 2021 and ends in July of 2023. In this time range the data coverage is very good with a maximum gap of 1 day without coverage.
 
 ```{r}
 #check variable new_vaccinations_smoothed
@@ -306,7 +306,3 @@ covid_germany %>%
 ```
 
 The variation of values as well as the variance of `new_vaccinations_smoothed` is also going to be sufficient to answer our research question.
-
-
-EINMAL LÖWE IMMER LÖWE
-
