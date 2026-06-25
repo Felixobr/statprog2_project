@@ -18,11 +18,13 @@
 
   - Then we cleaned it, by removing all variables, that only contained NAs (6 variables removed)
 
+  - We documentet the complete cleaning process in a seperate file called data_cleaning_covid.qmd, whic can be found in our github repository. All of the data we used is stored there as well in the folder "data".
+
 ```{r}
 library(readr)
 library(tidyverse)
 
-covid_germany = read_delim("data/covid_germany.csv")
+covid_germany <- read_delim("data/covid_germany.csv")
 
 ```
 
@@ -59,7 +61,7 @@ covid_germany = read_delim("data/covid_germany.csv")
 The data set contains daily COVID-19 observations for Germany from January 2020 until August 2024.
 
 - Number of rows: 1674
-- Number of columns: 67
+- Number of columns: 61
 
 Each row represents one day of reported COVID-19 data in Germany.
 
