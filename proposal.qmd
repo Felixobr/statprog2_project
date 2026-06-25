@@ -260,7 +260,7 @@ Both COVID-19 cases and deaths exhibit clear wave-like patterns over time. Peaks
 glimpse(covid_germany)
 ```
 
-We confirmed that `date`, `people_fully_vaccinated_per_hundred` and `new_vaccinations_smoothed`have the correct date types in order for us to create the planned line plot (Date and double) using glimpse().
+We confirmed that `date`, `people_fully_vaccinated_per_hundred` and `new_vaccinations_smoothed`have the correct data types in order for us to create the planned line plot (Date and double) using glimpse().
 
 ```{r}
 #check variable people_fully_vaccinated_per_hundred
@@ -306,3 +306,5 @@ covid_germany %>%
 ```
 
 The variation of values as well as the variance of `new_vaccinations_smoothed` is also going to be sufficient to answer our research question.
+
+test
