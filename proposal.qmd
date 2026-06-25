@@ -81,49 +81,41 @@ The key variables we expect to use are:
 -   `total_deaths`
 -   `reproduction_rate`
 
+Throughout this project, we primarily use the smoothed variables provided in the dataset whenever they are available. Daily COVID-19 data are affected by reporting delays and systematic weekend effects, which can introduce artificial fluctuations in the time series. The smoothed variables reduce these short-term irregularities and therefore provide a better representation of the underlying trends that are relevant for our analyses. Unless otherwise stated, all analyses are based on the smoothed versions of the variables.
+
 ## Research Questions
 
 ### Question 1: How did vaccination coverage in Germany develop during the COVID-19 pandemic?
 
-**Claim type:** Descriptive
+We will analyse `people_fully_vaccinated_per_hundred` together with `new_vaccinations_smoothed` and `date`, to analyse the development of COVID-19 vaccination coverage in Germany. Using line plots and descriptive statistics, we will identify the start of the vaccination campaign, periods of rapid vaccine uptake, peak vaccination activity, and the later plateau in vaccination coverage.
 
-We aim to describe how vaccination coverage changed between 2020 and 2024. In particular, we want to identify important phases of the vaccination campaign and examine how quickly vaccination rates increased over time.
+**Goal:** Descriptive
 
-To address this question, we will analyse the following variables:
-
--   `date`
--   `new_vaccinations(_smoothed)`,
--   `people_fully_vaccinated(_smoothed)_per_hundred`
-
-and similar ones.
+**Type:** Confirmatory
 
 ------------------------------------------------------------------------
 
 ### Question 2: How did vaccination coverage relate to different dimensions of COVID-19 severity in Germany?
 
-**Claim type:** Exploratory
+We investigate whether COVID-19 vaccination coverage was associated with different dimensions of disease severity in Germany. To explore these relationships, we focus separately on mortality and ICU occupancy without making causal claims about the effects of vaccination.
 
-We investigate whether periods with higher COVID-19 vaccination coverage were associated with lower levels of severe COVID-19 outcomes in Germany. Rather than focusing on a single indicator, we examine multiple dimensions of disease severity, including mortality and intensive care unit (ICU) occupancy. The goal is to explore patterns and relationships in the data without making causal claims about the effects of vaccination.
+**Goal:** Exploratory
 
-To address this question, we will analyse the following variables:
+**Type:** Exploratory
 
--   `date`
+### Sub-question 2a: Are higher vaccination rates associated with lower COVID-19 mortality?
 
--   `people_vaccinated_per_hundred`
+We will analyse `people_vaccinated_per_hundred` together with `new_deaths_smoothed` and `date` using line plots, scatter plots, correlation analysis, and descriptive statistics to examine whether higher vaccination coverage was associated with lower COVID-19 mortality in Germany.
 
--   `new_deaths_smoothed`
+Since this is an exploratory analysis, we investigate associations between vaccination coverage and mortality without making strong causal claims.
 
--   `icu_patients`
+### Sub-question 2b: Are higher vaccination rates associated with lower ICU occupancy?
 
--   `new_cases_smoothed` (to provide additional context on infection dynamics)
+We will analyse `people_vaccinated_per_hundred` together with `icu_patients` and `date` using line plots, scatter plots, correlation analysis, and descriptive statistics to examine whether higher vaccination coverage was associated with lower ICU occupancy in Germany.
 
-### Sub-question 2a
+Since this is an exploratory analysis, we investigate associations between vaccination coverage and ICU occupancy without making strong causal claims.
 
-Are higher vaccination rates associated with lower COVID-19 mortality?
-
-### Sub-question 2b
-
-Are higher vaccination rates associated with lower ICU occupancy?
+------------------------------------------------------------------------
 
 ## Audience and Context
 
