@@ -308,3 +308,5 @@ covid_germany %>%
 The variation of values as well as the variance of `new_vaccinations_smoothed` is also going to be sufficient to answer our research question.
 
 test
+
+test von felix versprochen itsi der letzte
