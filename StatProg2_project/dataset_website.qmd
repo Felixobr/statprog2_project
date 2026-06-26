@@ -1,0 +1,85 @@
+## Dataset:
+
+-   **Source and licence:**
+
+    -   The Data set is from the following website: [OWID - Covid Dataset](https://ourworldindata.org/explorers/covid?Metric=Excess+mortality+%28estimates%29&Interval=Cumulative&Relative+to+population=true&country=USA~BRA~JPN~DEU)
+
+    -   It can be downloaded in the following github repository: [OWID - github repository COVID](https://github.com/owid/covid-19-data/tree/master/public/data)
+
+    -   The dataset is called owid-covid-data.csv
+
+    -   The Dataset contains all Data on Covid in the years 2020 - 2024 in all countries of the world
+
+    -   We decided we only want to look at german Data on covid so we filtered it by country
+
+    -   Then we cleaned it, by removing all variables, that only contained NAs (6 variables removed)
+
+    -   We documented the complete cleaning process in a seperate file called \data\_cleaning_covid.qmd, which can be found in our github repository. All of the data we used is stored there as well in the folder "data".
+
+```{r}
+#| include: false
+library(readr)
+library(tidyverse)
+
+covid_germany <- read_delim("data2/covid_germany.csv")
+
+```
+
+-   **Licence:**
+
+    -   The *Our World in Data Covid Dataset* combines COVID-19 data from several official and scientific sources, including:
+
+        -   [Johns Hopkins University (JHU CSSE)](https://github.com/CSSEGISandData/COVID-19?utm_source=chatgpt.com) for confirmed cases and deaths
+
+        -   official national health authorities for vaccination and hospitalization data
+
+        -   the [Oxford COVID‑19 Government Response Tracker](https://www.bsg.ox.ac.uk/research/research-projects/covid-19-government-response-tracker?utm_source=chatgpt.com) for policy measures
+
+        -   international organizations such as the UN, World Bank, OECD, and IHME for demographic and socioeconomic indicators.
+
+        The dataset is published under the **Creative Commons Attribution (CC BY) license**.
+
+        This license allows users to:
+
+        -   use the data freely,
+
+        -   copy and redistribute it,
+
+        -   modify and adapt it,
+
+        -   use it commercially,
+
+        -   and include it in research or presentations,
+
+        as long as proper attribution to Our World in Data and the original data sources is provided.
+
+## What is in the data set?
+
+The data set contains daily COVID-19 observations for Germany from January 2020 until August 2024.
+
+-   Number of rows: 1674
+-   Number of columns: 61
+
+Each row represents one day of reported COVID-19 data in Germany.
+
+The data set includes information on:
+
+-   COVID-19 cases (e.g. `total_cases`, `new_cases`, `new_cases_smoothed`)
+-   COVID-19 deaths (e.g. `total_deaths`, `new_deaths`)
+-   Reproduction rate (`reproduction_rate`)
+-   Hospital and ICU patients (`hosp_patients`, `icu_patients`)
+-   Vaccination indicators
+-   Testing statistics
+-   Socioeconomic indicators and demographic variables
+
+The key variables we expect to use are:
+
+-   `date`
+-   `new_cases`
+-   `new_cases_smoothed`
+-   `total_cases`
+-   `new_deaths`
+-   `total_deaths`
+-   `reproduction_rate`
+
+Throughout this project, we primarily use the smoothed variables provided in the dataset whenever they are available. Daily COVID-19 data are affected by reporting delays and systematic weekend effects, which can introduce artificial fluctuations in the time series. The smoothed variables reduce these short-term irregularities and therefore provide a better representation of the underlying trends that are relevant for our analyses. Unless otherwise stated, all analyses are based on the smoothed versions of the variables.

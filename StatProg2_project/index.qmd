@@ -1,0 +1,21 @@
+---
+title: "StatProg2_project"
+---
+
+# COVID-19 Vaccination in Germany
+
+Welcome to our StatProg2 project.
+
+This project investigates the development of COVID-19 vaccination coverage in Germany and explores its relationship with COVID-19 mortality and ICU occupancy using publicly available data from Our World in Data.
+
+The project was developed by
+
+- Lukas Seibold
+- Felix Obermaier
+
+Use the navigation bar above to explore
+
+- the project proposal,
+- the dataset,
+- our analysis,
+- and the final results.

@@ -1,0 +1,40 @@
+---
+title: "About"
+---
+
+# About This Project
+
+This website was created as part of the course **Statistical Programming 2** at **LMU Munich**.
+
+The project investigates COVID-19 vaccination coverage in Germany and its relationship with COVID-19 mortality and ICU occupancy using publicly available data from **Our World in Data**.
+
+## Authors
+
+- Felix Obermaier
+- Lukas Seibold
+
+## Course Information
+
+- Course: Statistical Programming 2
+- Institution: Ludwig-Maximilians-Universität München
+- Semester: Summer Semester 2026
+
+## Data Source
+
+The data used in this project are provided by **Our World in Data**.
+
+https://ourworldindata.org/coronavirus
+
+## Software
+
+This project was developed using
+
+- R
+- Quarto
+- tidyverse
+- ggplot2
+- Git and GitHub
+
+## Reproducibility
+
+All analyses, figures, and tables shown on this website are generated directly from the source code contained in the GitHub repository.

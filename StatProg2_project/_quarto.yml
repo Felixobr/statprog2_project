@@ -1,0 +1,28 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "StatProg2_project - COVID-19 Vaccination in Germany"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: proposal_website.qmd
+        text: Project Proposal
+      - href: dataset_website.qmd
+        text: Dataset
+      - href: analysis_website.qmd
+        text: Analysis
+      - href: results_website.qmd
+        text: Results
+      - about.qmd
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    css: styles.css
+    toc: true
+
