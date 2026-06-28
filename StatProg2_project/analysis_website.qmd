@@ -48,30 +48,100 @@ Our project addresses the following questions:
 
 ## Vaccination Coverage
 
+### Research Question 1
+
+#### **Model specification — RQ1**
+
+-   **Response:** `people_fully_vaccinated_per_hundred`
+
+-   **Predictor:** `date`
+
+-   **Filter:** restricted to rows where `people_fully_vaccinated_per_hundred` is not missing (vaccination reporting only begins in early 2021)
+
+-   **Method:** `geom_line` (raw trajectory) plus a LOESS-smoothed trend line (`geom_smooth`) as a trial, to assess whether smoothing adds clarity over the raw reporting data
+
+-   **Expected output:** a time-series plot showing the trajectory of full vaccination coverage, from which we identify and qualitatively describe the main campaign phases (onset, steep rise, plateau near 78%)
+
+-   **Interpretation:** the plot characterizes how full vaccination coverage evolved over time; no comparison to other variables or causal claims are made at this stage
+
+#### Can the data support our RQ1? – Sanity Check
+
 ```{r}
-ggplot(
-  covid_germany,
-  aes(x = date, y = people_vaccinated_per_hundred)
-) +
-  geom_line(
-    colour = "#2C7FB8",
-    linewidth = 1
-  ) +
-  labs(
-    title = "COVID-19 vaccination coverage in Germany",
-    subtitle = "People vaccinated per 100 inhabitants",
-    x = "Date",
-    y = "Vaccination coverage (%)"
-  ) +
-  scale_x_date(date_breaks = "6 months",
-               date_labels = "%b\n%Y") +
-  theme_minimal() +
-  theme(
-    plot.title = element_text(face = "bold", size = 16),
-    plot.subtitle = element_text(size = 11),
-    axis.title = element_text(size = 12),
-    axis.text = element_text(size = 10)
+glimpse(covid_germany)
+```
+
+We confirmed that `date`, `people_fully_vaccinated_per_hundred` and `new_vaccinations_smoothed`have the correct data types in order for us to create the planned line plot (Date and double) using glimpse().
+
+```{r}
+#check variable people_fully_vaccinated_per_hundred
+covid_germany %>%
+  filter(!is.na(people_fully_vaccinated_per_hundred)) %>%
+  summarise(start = min(date), end = max(date))
+
+covid_germany %>%
+  filter(!is.na(people_fully_vaccinated_per_hundred)) %>%
+  arrange(date) %>%
+  mutate(gap = as.numeric(date - lag(date))) %>%
+  summarise(max_gap = max(gap, na.rm = TRUE))
+```
+
+The Data coverage on vaccination starts in January of 2021 and ends in July of 2023. In this time range the data coverage is very good with a maximum gap of 1 day without coverage.
+
+```{r}
+#check variable new_vaccinations_smoothed
+covid_germany %>%
+  filter(!is.na(new_vaccinations_smoothed)) %>%
+  summarise(start = min(date), end = max(date))
+
+covid_germany %>%
+  filter(!is.na(new_vaccinations_smoothed)) %>%
+  arrange(date) %>%
+  mutate(gap = as.numeric(date - lag(date))) %>%
+  summarise(max_gap = max(gap, na.rm = TRUE))
+```
+
+By using the same method as before we now found out that the data for `new_vaccinations_smoothed`ranges from December 2020 until July 2023 datewise. Also just like with `people_fully_vaccinated_per_hundred` the coverage for this variable is very good.
+
+As we explored in the *Domain-informed quality checks* part of our Proposal, the values of `people_fully_vaccinated_per_hundred` ranges from 0 to 78, which is enough variation to detect distinct phases over the available period.
+
+```{r}
+covid_germany %>%
+  filter(!is.na(new_vaccinations_smoothed)) %>%
+  summarise(
+    min = min(new_vaccinations_smoothed),
+    max = max(new_vaccinations_smoothed),
+    mean = mean(new_vaccinations_smoothed),
+    sd = sd(new_vaccinations_smoothed)
   )
+```
+
+The variation of values as well as the variance of `new_vaccinations_smoothed` is also going to be sufficient to answer our research question.
+
+```{r}
+covid_germany %>%
+  filter(!is.na(people_fully_vaccinated_per_hundred)) %>% 
+  ggplot(
+    aes(x = date, y = people_vaccinated_per_hundred)
+  ) +
+   geom_line(
+      colour = "#2C7FB8",
+      linewidth = 1
+    ) +
+    labs(
+      title = "COVID-19 vaccination coverage in Germany",
+      subtitle = "People vaccinated per 100 inhabitants",
+      x = "Date",
+      y = "Vaccination coverage (%)"
+    ) +
+    scale_x_date(date_breaks = "2 months",
+                date_labels = "%b\n%Y") +
+    theme_minimal() +
+    theme(
+      plot.title = element_text(face = "bold", size = 16),
+      plot.subtitle = element_text(size = 11),
+      axis.title = element_text(size = 12),
+      axis.text = element_text(size = 10)
+    )
 ```
 
 This figure illustrates how vaccination coverage developed throughout the pandemic.
