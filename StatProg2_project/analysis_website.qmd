@@ -1,0 +1,113 @@
+------------------------------------------------------------------------
+
+title: "COVID-19 Vaccination and Disease Severity in Germany" format: html ------------
+
+```{r}
+#| label: setup
+#| include: false
+
+library(tidyverse)
+library(skimr)
+library(infer)
+
+covid_germany <- read_delim("data2/covid_germany.csv")
+```
+
+# Introduction
+
+This project investigates the development of COVID-19 vaccination coverage in Germany and explores whether vaccination rates were associated with measures of disease severity during the pandemic.
+
+We use publicly available data from the *Our World in Data* COVID-19 dataset, restricted to Germany.
+
+# Dataset
+
+The dataset contains daily observations for Germany between 2020 and 2024.
+
+For our analyses we mainly use the following variables:
+
+-   `date`
+-   `people_vaccinated_per_hundred`
+-   `new_deaths_smoothed`
+-   `icu_patients`
+-   `new_cases_smoothed` (for context)
+
+Before the analysis, we inspected the dataset for missing values, variable types, and implausible observations.
+
+# Research Questions
+
+Our project addresses the following questions:
+
+1.  How did COVID-19 vaccination coverage in Germany change over time?
+
+2.  Was higher vaccination coverage associated with lower COVID-19 severity?
+
+    -   Was higher vaccination coverage associated with lower COVID-19 mortality?
+    -   Was higher vaccination coverage associated with lower ICU occupancy?
+
+# Preliminary Analysis
+
+## Vaccination Coverage
+
+```{r}
+ggplot(
+  covid_germany,
+  aes(x = date, y = people_vaccinated_per_hundred)
+) +
+  geom_line(
+    colour = "#2C7FB8",
+    linewidth = 1
+  ) +
+  labs(
+    title = "COVID-19 vaccination coverage in Germany",
+    subtitle = "People vaccinated per 100 inhabitants",
+    x = "Date",
+    y = "Vaccination coverage (%)"
+  ) +
+  scale_x_date(date_breaks = "6 months",
+               date_labels = "%b\n%Y") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 16),
+    plot.subtitle = element_text(size = 11),
+    axis.title = element_text(size = 12),
+    axis.text = element_text(size = 10)
+  )
+```
+
+This figure illustrates how vaccination coverage developed throughout the pandemic.
+
+## Vaccination and Mortality
+
+```{r}
+# Mortality analysis
+```
+
+The first analyses explore whether periods with higher vaccination coverage were accompanied by lower numbers of COVID-19 deaths.
+
+## Vaccination and ICU Occupancy
+
+```{r}
+# ICU analysis
+```
+
+This section investigates the relationship between vaccination coverage and ICU occupancy over time.
+
+# Current Progress
+
+So far, we have
+
+-   imported and cleaned the dataset,
+-   explored the relevant variables,
+-   produced initial visualizations,
+-   started investigating the relationships between vaccination coverage, mortality, and ICU occupancy.
+
+These analyses will be expanded and interpreted in greater detail in the final version of the website.
+
+# Next Steps
+
+For the final project we plan to
+
+-   improve the visualizations,
+-   perform additional descriptive analyses,
+-   quantify the observed relationships where appropriate,
+-   provide a comprehensive discussion of the findings and their limitations.
