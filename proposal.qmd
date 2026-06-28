@@ -4,21 +4,21 @@
 
 ## Dataset and research questions:
 
--   **Source and licence:**
+- **Source and licence:**
 
-    -   The Data set is from the following website: [OWID - Covid Dataset](https://ourworldindata.org/explorers/covid?Metric=Excess+mortality+%28estimates%29&Interval=Cumulative&Relative+to+population=true&country=USA~BRA~JPN~DEU)
+  - The Data set is from the following website: [OWID - Covid Dataset](https://ourworldindata.org/explorers/covid?Metric=Excess+mortality+%28estimates%29&Interval=Cumulative&Relative+to+population=true&country=USA~BRA~JPN~DEU)
 
-    -   It can be downloaded in the following github repository: [OWID - github repository COVID](https://github.com/owid/covid-19-data/tree/master/public/data)
+  - It can be downloaded in the following github repository: [OWID - github repository COVID](https://github.com/owid/covid-19-data/tree/master/public/data)
 
-    -   The dataset is called owid-covid-data.csv
+  - The dataset is called owid-covid-data.csv
 
-    -   The Dataset contains all Data on Covid in the years 2020 - 2024 in all countries of the world
+  - The Dataset contains all Data on Covid in the years 2020 - 2024 in all countries of the world
 
-    -   We decided we only want to look at german Data on covid so we filtered it by country
+  - We decided we only want to look at german Data on covid so we filtered it by country
 
-    -   Then we cleaned it, by removing all variables, that only contained NAs (6 variables removed)
+  - Then we cleaned it, by removing all variables, that only contained NAs (6 variables removed)
 
-    -   We documented the complete cleaning process in a seperate file called data_cleaning_covid.qmd, which can be found in our github repository. All of the data we used is stored there as well in the folder "data".
+  - We documented the complete cleaning process in a seperate file called data_cleaning_covid.qmd, which can be found in our github repository. All of the data we used is stored there as well in the folder "data".
 
 ```{r}
 library(readr)
@@ -28,62 +28,62 @@ covid_germany <- read_delim("data/covid_germany.csv")
 
 ```
 
--   **Licence:**
+- **Licence:**
 
-    -   The *Our World in Data Covid Dataset* combines COVID-19 data from several official and scientific sources, including:
+  - The *Our World in Data Covid Dataset* combines COVID-19 data from several official and scientific sources, including:
 
-        -   [Johns Hopkins University (JHU CSSE)](https://github.com/CSSEGISandData/COVID-19?utm_source=chatgpt.com) for confirmed cases and deaths
+    - [Johns Hopkins University (JHU CSSE)](https://github.com/CSSEGISandData/COVID-19?utm_source=chatgpt.com) for confirmed cases and deaths
 
-        -   official national health authorities for vaccination and hospitalization data
+    - official national health authorities for vaccination and hospitalization data
 
-        -   the [Oxford COVID‑19 Government Response Tracker](https://www.bsg.ox.ac.uk/research/research-projects/covid-19-government-response-tracker?utm_source=chatgpt.com) for policy measures
+    - the [Oxford COVID‑19 Government Response Tracker](https://www.bsg.ox.ac.uk/research/research-projects/covid-19-government-response-tracker?utm_source=chatgpt.com) for policy measures
 
-        -   international organizations such as the UN, World Bank, OECD, and IHME for demographic and socioeconomic indicators.
+    - international organizations such as the UN, World Bank, OECD, and IHME for demographic and socioeconomic indicators.
 
-        The dataset is published under the **Creative Commons Attribution (CC BY) license**.
+    The dataset is published under the **Creative Commons Attribution (CC BY) license**.
 
-        This license allows users to:
+    This license allows users to:
 
-        -   use the data freely,
+    - use the data freely,
 
-        -   copy and redistribute it,
+    - copy and redistribute it,
 
-        -   modify and adapt it,
+    - modify and adapt it,
 
-        -   use it commercially,
+    - use it commercially,
 
-        -   and include it in research or presentations,
+    - and include it in research or presentations,
 
-        as long as proper attribution to Our World in Data and the original data sources is provided.
+    as long as proper attribution to Our World in Data and the original data sources is provided.
 
 ## What is in the data set?
 
 The data set contains daily COVID-19 observations for Germany from January 2020 until August 2024.
 
--   Number of rows: 1674
--   Number of columns: 61
+- Number of rows: 1674
+- Number of columns: 61
 
 Each row represents one day of reported COVID-19 data in Germany.
 
 The data set includes information on:
 
--   COVID-19 cases (e.g. `total_cases`, `new_cases`, `new_cases_smoothed`)
--   COVID-19 deaths (e.g. `total_deaths`, `new_deaths`)
--   Reproduction rate (`reproduction_rate`)
--   Hospital and ICU patients (`hosp_patients`, `icu_patients`)
--   Vaccination indicators
--   Testing statistics
--   Socioeconomic indicators and demographic variables
+- COVID-19 cases (e.g. `total_cases`, `new_cases`, `new_cases_smoothed`)
+- COVID-19 deaths (e.g. `total_deaths`, `new_deaths`)
+- Reproduction rate (`reproduction_rate`)
+- Hospital and ICU patients (`hosp_patients`, `icu_patients`)
+- Vaccination indicators
+- Testing statistics
+- Socioeconomic indicators and demographic variables
 
 The key variables we expect to use are:
 
--   `date`
--   `new_cases`
--   `new_cases_smoothed`
--   `total_cases`
--   `new_deaths`
--   `total_deaths`
--   `reproduction_rate`
+- `date`
+- `new_cases`
+- `new_cases_smoothed`
+- `total_cases`
+- `new_deaths`
+- `total_deaths`
+- `reproduction_rate`
 
 Throughout this project, we primarily use the smoothed variables provided in the dataset whenever they are available. Daily COVID-19 data are affected by reporting delays and systematic weekend effects, which can introduce artificial fluctuations in the time series. The smoothed variables reduce these short-term irregularities and therefore provide a better representation of the underlying trends that are relevant for our analyses. Unless otherwise stated, all analyses are based on the smoothed versions of the variables.
 
@@ -133,10 +133,10 @@ The results will be presented through a GitHub-hosted website created with Quart
 
 We examined the key variables used in our analysis.
 
--   Vaccination rates (`people_vaccinated_per_hundred` and `people_fully_vaccinated_per_hundred`) range from 0 to approximately 78 percent, which is within plausible bounds.
--   ICU patient counts range from 100 to 5761 and contain no negative values.
--   Daily death counts are non-negative, although some unusually large values appear and may reflect reporting corrections or delayed reporting.
--   Several variables contain missing values. Vaccination variables have more than 800 missing observations, while ICU patient counts and death counts also contain missing data. These missing values are likely related to changes in reporting availability over time. Some variables are completely missing for Germany and will therefore not be used in the analysis.
+- Vaccination rates (`people_vaccinated_per_hundred` and `people_fully_vaccinated_per_hundred`) range from 0 to approximately 78 percent, which is within plausible bounds.
+- ICU patient counts range from 100 to 5761 and contain no negative values.
+- Daily death counts are non-negative, although some unusually large values appear and may reflect reporting corrections or delayed reporting.
+- Several variables contain missing values. Vaccination variables have more than 800 missing observations, while ICU patient counts and death counts also contain missing data. These missing values are likely related to changes in reporting availability over time. Some variables are completely missing for Germany and will therefore not be used in the analysis.
 
 ## Initial Data Analysis (IDA)
 
@@ -214,13 +214,13 @@ Both COVID-19 cases and deaths exhibit clear wave-like patterns over time. Peaks
 
 #### Data quality issues and planned handling
 
--   **Substantial missingness in key variables.** Vaccination variables have over 840 missing values, ICU counts 480, and the reproduction rate 637. These gaps are concentrated at the beginning of the period, before the corresponding indicators were collected. We will restrict each analysis to the time window in which the relevant variable is actually available rather than imputing early values.
+- **Substantial missingness in key variables.** Vaccination variables have over 840 missing values, ICU counts 480, and the reproduction rate 637. These gaps are concentrated at the beginning of the period, before the corresponding indicators were collected. We will restrict each analysis to the time window in which the relevant variable is actually available rather than imputing early values.
 
--   **`hosp_patients` is entirely missing for Germany (1,674 NAs).** Although listed as a key variable in our earlier draft, it cannot be used. We will drop it and rely on `icu_patients` as the measure of hospital burden.
+- **`hosp_patients` is entirely missing for Germany (1,674 NAs).** Although listed as a key variable in our earlier draft, it cannot be used. We will drop it and rely on `icu_patients` as the measure of hospital burden.
 
--   **Reporting spikes in raw counts.** `new_cases` and `new_deaths` contain extreme single-day values (up to 1.59 M cases and 6,460 deaths) caused by delayed or batched reporting. We will use the smoothed 7-day-average variables throughout to reduce the influence of these artefacts.
+- **Reporting spikes in raw counts.** `new_cases` and `new_deaths` contain extreme single-day values (up to 1.59 M cases and 6,460 deaths) caused by delayed or batched reporting. We will use the smoothed 7-day-average variables throughout to reduce the influence of these artefacts.
 
--   **Suspicious ICU minimum.** The minimum ICU value is exactly 100, which is more likely a lower bound or rounding artefact in the source than a true minimum. We will keep this in mind when interpreting small ICU values rather than treating it as a clean lowest observation
+- **Suspicious ICU minimum.** The minimum ICU value is exactly 100, which is more likely a lower bound or rounding artefact in the source than a true minimum. We will keep this in mind when interpreting small ICU values rather than treating it as a clean lowest observation
 
 ## **Analysis plan**
 
@@ -232,13 +232,13 @@ Both COVID-19 cases and deaths exhibit clear wave-like patterns over time. Peaks
 
 ## Workflow organisation
 
--   **Code style:** We follow the tidyverse style guide and enforce it by formatting all code with `styler` before committing.
+- **Code style:** We follow the tidyverse style guide and enforce it by formatting all code with `styler` before committing.
 
--   **Packages:** `tidyverse` (including `readr`, `dplyr`, `ggplot2`)
+- **Packages:** `tidyverse` (including `readr`, `dplyr`, `ggplot2`)
 
--   **Git workflow:** We collaborate via GitHub. Each of us works on their own feature branch, and changes are merged into `main` through pull requests with a short review. Where possible we split work by research question to minimise merge conflicts.
+- **Git workflow:** We collaborate via GitHub. Each of us works on their own feature branch, and changes are merged into `main` through pull requests with a short review. Where possible we split work by research question to minimise merge conflicts.
 
--   **`.gitignore`:** We exclude large raw data files, rendered Quarto output, and any `.env`/secret files to keep the repository lightweight and clean.
+- **`.gitignore`:** We exclude large raw data files, rendered Quarto output, and any `.env`/secret files to keep the repository lightweight and clean.
 
 ## Answering the Research Questions
 
@@ -246,17 +246,17 @@ Both COVID-19 cases and deaths exhibit clear wave-like patterns over time. Peaks
 
 #### **Model specification — RQ1**
 
--   **Response:** `people_fully_vaccinated_per_hundred`
+- **Response:** `people_fully_vaccinated_per_hundred`
 
--   **Predictor:** `date`
+- **Predictor:** `date`
 
--   **Filter:** restricted to rows where `people_fully_vaccinated_per_hundred` is not missing (vaccination reporting only begins in early 2021)
+- **Filter:** restricted to rows where `people_fully_vaccinated_per_hundred` is not missing (vaccination reporting only begins in early 2021)
 
--   **Method:** `geom_line` (raw trajectory) plus a LOESS-smoothed trend line (`geom_smooth`) as a trial, to assess whether smoothing adds clarity over the raw reporting data
+- **Method:** `geom_line` (raw trajectory) plus a LOESS-smoothed trend line (`geom_smooth`) as a trial, to assess whether smoothing adds clarity over the raw reporting data
 
--   **Expected output:** a time-series plot showing the trajectory of full vaccination coverage, from which we identify and qualitatively describe the main campaign phases (onset, steep rise, plateau near 78%)
+- **Expected output:** a time-series plot showing the trajectory of full vaccination coverage, from which we identify and qualitatively describe the main campaign phases (onset, steep rise, plateau near 78%)
 
--   **Interpretation:** the plot characterizes how full vaccination coverage evolved over time; no comparison to other variables or causal claims are made at this stage
+- **Interpretation:** the plot characterizes how full vaccination coverage evolved over time; no comparison to other variables or causal claims are made at this stage
 
 #### Can the data support our RQ1? – Sanity Check
 
@@ -310,3 +310,18 @@ covid_germany %>%
 ```
 
 The variation of values as well as the variance of `new_vaccinations_smoothed` is also going to be sufficient to answer our research question.
+
+```{r}
+#| fig-alt: "Line chart showing the share of people fully vaccinated against COVID-19 in Germany from late 2020 to 2023. The line starts near zero in early 2021, rises steeply through 2021, and then levels off at around 76 percent."
+covid_germany %>% filter(!is.na(people_fully_vaccinated_per_hundred)) %>% ggplot(aes(
+  x = date,
+  y = people_fully_vaccinated_per_hundred
+))+
+  geom_line()+
+  labs(title = "Development of vaccination coverage in Germany during Covid",
+       x = NULL,
+       y = "People fully vaccinated per hundred",
+       caption = "Source: Our World in Data COVID-19 dataset")+
+  theme_minimal()
+  
+```

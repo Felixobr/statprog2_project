@@ -22,3 +22,18 @@ The data originates from the *Our World in Data (OWID) COVID-19 Dataset*. For th
 ## Website
 
 The final project results are presented through a GitHub-hosted Quarto website containing visualizations, statistical analyses, and interpretations of the findings.
+
+
+
+## Practical #10 — one improvement
+
+**Before:** a bare default line chart — raw axis labels (`date`,
+`people_fully_vaccinated_per_hundred`), no title, no context.
+
+**After:** added a title, a subtitle that states the finding, clean axis
+labels, and `theme_minimal()`.
+
+What changed and why: the default plot showed the data but not the message.
+The subtitle now states the finding directly ("a steep rise in 2021, then a
+plateau around 76%"), so a reader can take the conclusion from the figure
+alone instead of having to read the curve themselves.
