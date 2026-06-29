@@ -7,6 +7,41 @@
     "text": "This website was created as part of the course Statistical Programming 2 at LMU Munich.\nThe project investigates COVID-19 vaccination coverage in Germany and its relationship with COVID-19 mortality and ICU occupancy using publicly available data from Our World in Data.\n\n\n\nFelix Obermaier\nLukas Seibold\n\n\n\n\n\nCourse: Statistical Programming 2\nInstitution: Ludwig-Maximilians-Universität München\nSemester: Summer Semester 2026\n\n\n\n\nThe data used in this project are provided by Our World in Data.\nhttps://ourworldindata.org/coronavirus\n\n\n\nThis project was developed using\n\nR\nQuarto\ntidyverse\nggplot2\nGit and GitHub\n\n\n\n\nAll analyses, figures, and tables shown on this website are generated directly from the source code contained in the GitHub repository."
   },
   {
+    "objectID": "about.html#authors",
+    "href": "about.html#authors",
+    "title": "About",
+    "section": "",
+    "text": "Felix Obermaier\nLukas Seibold"
+  },
+  {
+    "objectID": "about.html#course-information",
+    "href": "about.html#course-information",
+    "title": "About",
+    "section": "",
+    "text": "Course: Statistical Programming 2\nInstitution: Ludwig-Maximilians-Universität München\nSemester: Summer Semester 2026"
+  },
+  {
+    "objectID": "about.html#data-source",
+    "href": "about.html#data-source",
+    "title": "About",
+    "section": "",
+    "text": "The data used in this project are provided by Our World in Data.\nhttps://ourworldindata.org/coronavirus"
+  },
+  {
+    "objectID": "about.html#software",
+    "href": "about.html#software",
+    "title": "About",
+    "section": "",
+    "text": "This project was developed using\n\nR\nQuarto\ntidyverse\nggplot2\nGit and GitHub"
+  },
+  {
+    "objectID": "about.html#reproducibility",
+    "href": "about.html#reproducibility",
+    "title": "About",
+    "section": "",
+    "text": "All analyses, figures, and tables shown on this website are generated directly from the source code contained in the GitHub repository."
+  },
+  {
     "objectID": "results_website.html",
     "href": "results_website.html",
     "title": "Results",
@@ -91,69 +126,6 @@
     "text": "Answering the Research Questions\n\nResearch Question 1\n\nModel specification — RQ1\n\nResponse: people_fully_vaccinated_per_hundred\nPredictor: date\nFilter: restricted to rows where people_fully_vaccinated_per_hundred is not missing (vaccination reporting only begins in early 2021)\nMethod: geom_line (raw trajectory) plus a LOESS-smoothed trend line (geom_smooth) as a trial, to assess whether smoothing adds clarity over the raw reporting data\nExpected output: a time-series plot showing the trajectory of full vaccination coverage, from which we identify and qualitatively describe the main campaign phases (onset, steep rise, plateau near 78%)\nInterpretation: the plot characterizes how full vaccination coverage evolved over time; no comparison to other variables or causal claims are made at this stage\n\n\n\nCan the data support our RQ1? – Sanity Check\n\nglimpse(covid_germany)\n\nRows: 1,674\nColumns: 61\n$ iso_code                                   &lt;chr&gt; \"DEU\", \"DEU\", \"DEU\", \"DEU\",…\n$ continent                                  &lt;chr&gt; \"Europe\", \"Europe\", \"Europe…\n$ location                                   &lt;chr&gt; \"Germany\", \"Germany\", \"Germ…\n$ date                                       &lt;date&gt; 2020-01-05, 2020-01-06, 20…\n$ total_cases                                &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, …\n$ new_cases                                  &lt;dbl&gt; 1, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ new_cases_smoothed                         &lt;dbl&gt; NA, NA, NA, NA, NA, 0.14, 0…\n$ total_deaths                               &lt;dbl&gt; 3, 3, 3, 3, 3, 3, 3, 3, 3, …\n$ new_deaths                                 &lt;dbl&gt; 3, 0, 0, 0, 0, 0, 0, 0, 0, …\n$ new_deaths_smoothed                        &lt;dbl&gt; NA, NA, NA, NA, NA, 0.43, 0…\n$ total_cases_per_million                    &lt;dbl&gt; 0.01, 0.01, 0.01, 0.01, 0.0…\n$ new_cases_per_million                      &lt;dbl&gt; 0.01, 0.00, 0.00, 0.00, 0.0…\n$ new_cases_smoothed_per_million             &lt;dbl&gt; NA, NA, NA, NA, NA, 0, 0, 0…\n$ total_deaths_per_million                   &lt;dbl&gt; 0.04, 0.04, 0.04, 0.04, 0.0…\n$ new_deaths_per_million                     &lt;dbl&gt; 0.04, 0.00, 0.00, 0.00, 0.0…\n$ new_deaths_smoothed_per_million            &lt;dbl&gt; NA, NA, NA, NA, NA, 0, 0, 0…\n$ reproduction_rate                          &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ icu_patients                               &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ icu_patients_per_million                   &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ weekly_icu_admissions                      &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ weekly_icu_admissions_per_million          &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ weekly_hosp_admissions                     &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ weekly_hosp_admissions_per_million         &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ total_tests                                &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ total_tests_per_thousand                   &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ new_tests_smoothed                         &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ new_tests_smoothed_per_thousand            &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ positive_rate                              &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ tests_per_case                             &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ tests_units                                &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ total_vaccinations                         &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ people_vaccinated                          &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ people_fully_vaccinated                    &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ total_boosters                             &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ new_vaccinations                           &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ new_vaccinations_smoothed                  &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ total_vaccinations_per_hundred             &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ people_vaccinated_per_hundred              &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ people_fully_vaccinated_per_hundred        &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ total_boosters_per_hundred                 &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ new_vaccinations_smoothed_per_million      &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ new_people_vaccinated_smoothed             &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ new_people_vaccinated_smoothed_per_hundred &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…\n$ stringency_index                           &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.0…\n$ population_density                         &lt;dbl&gt; 237.02, 237.02, 237.02, 237…\n$ median_age                                 &lt;dbl&gt; 46.6, 46.6, 46.6, 46.6, 46.…\n$ aged_65_older                              &lt;dbl&gt; 21.45, 21.45, 21.45, 21.45,…\n$ aged_70_older                              &lt;dbl&gt; 15.96, 15.96, 15.96, 15.96,…\n$ gdp_per_capita                             &lt;dbl&gt; 45229.24, 45229.24, 45229.2…\n$ cardiovasc_death_rate                      &lt;dbl&gt; 156.14, 156.14, 156.14, 156…\n$ diabetes_prevalence                        &lt;dbl&gt; 8.31, 8.31, 8.31, 8.31, 8.3…\n$ female_smokers                             &lt;dbl&gt; 28.2, 28.2, 28.2, 28.2, 28.…\n$ male_smokers                               &lt;dbl&gt; 33.1, 33.1, 33.1, 33.1, 33.…\n$ hospital_beds_per_thousand                 &lt;dbl&gt; 8, 8, 8, 8, 8, 8, 8, 8, 8, …\n$ life_expectancy                            &lt;dbl&gt; 81.33, 81.33, 81.33, 81.33,…\n$ human_development_index                    &lt;dbl&gt; 0.95, 0.95, 0.95, 0.95, 0.9…\n$ population                                 &lt;dbl&gt; 83369840, 83369840, 8336984…\n$ excess_mortality_cumulative_absolute       &lt;dbl&gt; -760.7, NA, NA, NA, NA, NA,…\n$ excess_mortality_cumulative                &lt;dbl&gt; -3.87, NA, NA, NA, NA, NA, …\n$ excess_mortality                           &lt;dbl&gt; -3.87, NA, NA, NA, NA, NA, …\n$ excess_mortality_cumulative_per_million    &lt;dbl&gt; -9.13, NA, NA, NA, NA, NA, …\n\n\nWe confirmed that date, people_fully_vaccinated_per_hundred and new_vaccinations_smoothedhave the correct data types in order for us to create the planned line plot (Date and double) using glimpse().\n\n#check variable people_fully_vaccinated_per_hundred\ncovid_germany %&gt;%\n  filter(!is.na(people_fully_vaccinated_per_hundred)) %&gt;%\n  summarise(start = min(date), end = max(date))\n\ncovid_germany %&gt;%\n  filter(!is.na(people_fully_vaccinated_per_hundred)) %&gt;%\n  arrange(date) %&gt;%\n  mutate(gap = as.numeric(date - lag(date))) %&gt;%\n  summarise(max_gap = max(gap, na.rm = TRUE))\n\nThe Data coverage on vaccination stars in January of 2021 and ends in July of 2023. In this time range the data coverage is very good with a maximum gap of 1 day without coverage.\n\n#check variable new_vaccinations_smoothed\ncovid_germany %&gt;%\n  filter(!is.na(new_vaccinations_smoothed)) %&gt;%\n  summarise(start = min(date), end = max(date))\n\ncovid_germany %&gt;%\n  filter(!is.na(new_vaccinations_smoothed)) %&gt;%\n  arrange(date) %&gt;%\n  mutate(gap = as.numeric(date - lag(date))) %&gt;%\n  summarise(max_gap = max(gap, na.rm = TRUE))\n\nBy using the same method as before we now found out that the data for new_vaccinations_smoothedranges from December 2020 until July 2023 datewise. Also just like with people_fully_vaccinated_per_hundred the coverage for this variable is very good.\nAs we explored in the Domain-informed quality checks part of our Proposal, the values of people_fully_vaccinated_per_hundred ranges from 0 to 78, which is enough variation to detect distinct phases over the available period.\n\ncovid_germany %&gt;%\n  filter(!is.na(new_vaccinations_smoothed)) %&gt;%\n  summarise(\n    min = min(new_vaccinations_smoothed),\n    max = max(new_vaccinations_smoothed),\n    mean = mean(new_vaccinations_smoothed),\n    sd = sd(new_vaccinations_smoothed)\n  )\n\nThe variation of values as well as the variance of new_vaccinations_smoothed is also going to be sufficient to answer our research question."
   },
   {
-    "objectID": "dataset_website.html",
-    "href": "dataset_website.html",
-    "title": "StatProg2_project - COVID-19 Vaccination in Germany",
-    "section": "",
-    "text": "Source and licence:\n\nThe Data set is from the following website: OWID - Covid Dataset\nIt can be downloaded in the following github repository: OWID - github repository COVID\nThe dataset is called owid-covid-data.csv\nThe Dataset contains all Data on Covid in the years 2020 - 2024 in all countries of the world\nWe decided we only want to look at german Data on covid so we filtered it by country\nThen we cleaned it, by removing all variables, that only contained NAs (6 variables removed)\nWe documented the complete cleaning process in a seperate file called _cleaning_covid.qmd, which can be found in our github repository. All of the data we used is stored there as well in the folder “data”.\n\nLicence:\n\nThe Our World in Data Covid Dataset combines COVID-19 data from several official and scientific sources, including:\n\nJohns Hopkins University (JHU CSSE) for confirmed cases and deaths\nofficial national health authorities for vaccination and hospitalization data\nthe Oxford COVID‑19 Government Response Tracker for policy measures\ninternational organizations such as the UN, World Bank, OECD, and IHME for demographic and socioeconomic indicators.\n\nThe dataset is published under the Creative Commons Attribution (CC BY) license.\nThis license allows users to:\n\nuse the data freely,\ncopy and redistribute it,\nmodify and adapt it,\nuse it commercially,\nand include it in research or presentations,\n\nas long as proper attribution to Our World in Data and the original data sources is provided."
-  },
-  {
-    "objectID": "dataset_website.html#dataset",
-    "href": "dataset_website.html#dataset",
-    "title": "StatProg2_project - COVID-19 Vaccination in Germany",
-    "section": "",
-    "text": "Source and licence:\n\nThe Data set is from the following website: OWID - Covid Dataset\nIt can be downloaded in the following github repository: OWID - github repository COVID\nThe dataset is called owid-covid-data.csv\nThe Dataset contains all Data on Covid in the years 2020 - 2024 in all countries of the world\nWe decided we only want to look at german Data on covid so we filtered it by country\nThen we cleaned it, by removing all variables, that only contained NAs (6 variables removed)\nWe documented the complete cleaning process in a seperate file called _cleaning_covid.qmd, which can be found in our github repository. All of the data we used is stored there as well in the folder “data”.\n\nLicence:\n\nThe Our World in Data Covid Dataset combines COVID-19 data from several official and scientific sources, including:\n\nJohns Hopkins University (JHU CSSE) for confirmed cases and deaths\nofficial national health authorities for vaccination and hospitalization data\nthe Oxford COVID‑19 Government Response Tracker for policy measures\ninternational organizations such as the UN, World Bank, OECD, and IHME for demographic and socioeconomic indicators.\n\nThe dataset is published under the Creative Commons Attribution (CC BY) license.\nThis license allows users to:\n\nuse the data freely,\ncopy and redistribute it,\nmodify and adapt it,\nuse it commercially,\nand include it in research or presentations,\n\nas long as proper attribution to Our World in Data and the original data sources is provided."
-  },
-  {
-    "objectID": "dataset_website.html#what-is-in-the-data-set",
-    "href": "dataset_website.html#what-is-in-the-data-set",
-    "title": "StatProg2_project - COVID-19 Vaccination in Germany",
-    "section": "What is in the data set?",
-    "text": "What is in the data set?\nThe data set contains daily COVID-19 observations for Germany from January 2020 until August 2024.\n\nNumber of rows: 1674\nNumber of columns: 61\n\nEach row represents one day of reported COVID-19 data in Germany.\nThe data set includes information on:\n\nCOVID-19 cases (e.g. total_cases, new_cases, new_cases_smoothed)\nCOVID-19 deaths (e.g. total_deaths, new_deaths)\nReproduction rate (reproduction_rate)\nHospital and ICU patients (hosp_patients, icu_patients)\nVaccination indicators\nTesting statistics\nSocioeconomic indicators and demographic variables\n\nThe key variables we expect to use are:\n\ndate\nnew_cases\nnew_cases_smoothed\ntotal_cases\nnew_deaths\ntotal_deaths\nreproduction_rate\n\nThroughout this project, we primarily use the smoothed variables provided in the dataset whenever they are available. Daily COVID-19 data are affected by reporting delays and systematic weekend effects, which can introduce artificial fluctuations in the time series. The smoothed variables reduce these short-term irregularities and therefore provide a better representation of the underlying trends that are relevant for our analyses. Unless otherwise stated, all analyses are based on the smoothed versions of the variables."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "StatProg2_project",
-    "section": "",
-    "text": "COVID-19 Vaccination in Germany\nWelcome to our StatProg2 project.\nThis project investigates the development of COVID-19 vaccination coverage in Germany and explores its relationship with COVID-19 mortality and ICU occupancy using publicly available data from Our World in Data.\nThe project was developed by\n\nLukas Seibold\nFelix Obermaier\n\nUse the navigation bar above to explore\n\nthe project proposal,\nthe dataset,\nour analysis,\nand the final results."
-  },
-  {
-    "objectID": "about.html#authors",
-    "href": "about.html#authors",
-    "title": "About",
-    "section": "",
-    "text": "Felix Obermaier\nLukas Seibold"
-  },
-  {
-    "objectID": "about.html#course-information",
-    "href": "about.html#course-information",
-    "title": "About",
-    "section": "",
-    "text": "Course: Statistical Programming 2\nInstitution: Ludwig-Maximilians-Universität München\nSemester: Summer Semester 2026"
-  },
-  {
-    "objectID": "about.html#data-source",
-    "href": "about.html#data-source",
-    "title": "About",
-    "section": "",
-    "text": "The data used in this project are provided by Our World in Data.\nhttps://ourworldindata.org/coronavirus"
-  },
-  {
-    "objectID": "about.html#software",
-    "href": "about.html#software",
-    "title": "About",
-    "section": "",
-    "text": "This project was developed using\n\nR\nQuarto\ntidyverse\nggplot2\nGit and GitHub"
-  },
-  {
-    "objectID": "about.html#reproducibility",
-    "href": "about.html#reproducibility",
-    "title": "About",
-    "section": "",
-    "text": "All analyses, figures, and tables shown on this website are generated directly from the source code contained in the GitHub repository."
-  },
-  {
     "objectID": "analysis_website.html",
     "href": "analysis_website.html",
     "title": "Introduction",
@@ -180,5 +152,33 @@
     "title": "Introduction",
     "section": "Vaccination and ICU Occupancy",
     "text": "Vaccination and ICU Occupancy\n\n# ICU analysis\n\nThis section investigates the relationship between vaccination coverage and ICU occupancy over time."
+  },
+  {
+    "objectID": "dataset_website.html",
+    "href": "dataset_website.html",
+    "title": "StatProg2_project - COVID-19 Vaccination in Germany",
+    "section": "",
+    "text": "Source and licence:\n\nThe Data set is from the following website: OWID - Covid Dataset\nIt can be downloaded in the following github repository: OWID - github repository COVID\nThe dataset is called owid-covid-data.csv\nThe Dataset contains all Data on Covid in the years 2020 - 2024 in all countries of the world\nWe decided we only want to look at german Data on covid so we filtered it by country\nThen we cleaned it, by removing all variables, that only contained NAs (6 variables removed)\nWe documented the complete cleaning process in a seperate file called _cleaning_covid.qmd, which can be found in our github repository. All of the data we used is stored there as well in the folder “data”.\n\nLicence:\n\nThe Our World in Data Covid Dataset combines COVID-19 data from several official and scientific sources, including:\n\nJohns Hopkins University (JHU CSSE) for confirmed cases and deaths\nofficial national health authorities for vaccination and hospitalization data\nthe Oxford COVID‑19 Government Response Tracker for policy measures\ninternational organizations such as the UN, World Bank, OECD, and IHME for demographic and socioeconomic indicators.\n\nThe dataset is published under the Creative Commons Attribution (CC BY) license.\nThis license allows users to:\n\nuse the data freely,\ncopy and redistribute it,\nmodify and adapt it,\nuse it commercially,\nand include it in research or presentations,\n\nas long as proper attribution to Our World in Data and the original data sources is provided."
+  },
+  {
+    "objectID": "dataset_website.html#dataset",
+    "href": "dataset_website.html#dataset",
+    "title": "StatProg2_project - COVID-19 Vaccination in Germany",
+    "section": "",
+    "text": "Source and licence:\n\nThe Data set is from the following website: OWID - Covid Dataset\nIt can be downloaded in the following github repository: OWID - github repository COVID\nThe dataset is called owid-covid-data.csv\nThe Dataset contains all Data on Covid in the years 2020 - 2024 in all countries of the world\nWe decided we only want to look at german Data on covid so we filtered it by country\nThen we cleaned it, by removing all variables, that only contained NAs (6 variables removed)\nWe documented the complete cleaning process in a seperate file called _cleaning_covid.qmd, which can be found in our github repository. All of the data we used is stored there as well in the folder “data”.\n\nLicence:\n\nThe Our World in Data Covid Dataset combines COVID-19 data from several official and scientific sources, including:\n\nJohns Hopkins University (JHU CSSE) for confirmed cases and deaths\nofficial national health authorities for vaccination and hospitalization data\nthe Oxford COVID‑19 Government Response Tracker for policy measures\ninternational organizations such as the UN, World Bank, OECD, and IHME for demographic and socioeconomic indicators.\n\nThe dataset is published under the Creative Commons Attribution (CC BY) license.\nThis license allows users to:\n\nuse the data freely,\ncopy and redistribute it,\nmodify and adapt it,\nuse it commercially,\nand include it in research or presentations,\n\nas long as proper attribution to Our World in Data and the original data sources is provided."
+  },
+  {
+    "objectID": "dataset_website.html#what-is-in-the-data-set",
+    "href": "dataset_website.html#what-is-in-the-data-set",
+    "title": "StatProg2_project - COVID-19 Vaccination in Germany",
+    "section": "What is in the data set?",
+    "text": "What is in the data set?\nThe data set contains daily COVID-19 observations for Germany from January 2020 until August 2024.\n\nNumber of rows: 1674\nNumber of columns: 61\n\nEach row represents one day of reported COVID-19 data in Germany.\nThe data set includes information on:\n\nCOVID-19 cases (e.g. total_cases, new_cases, new_cases_smoothed)\nCOVID-19 deaths (e.g. total_deaths, new_deaths)\nReproduction rate (reproduction_rate)\nHospital and ICU patients (hosp_patients, icu_patients)\nVaccination indicators\nTesting statistics\nSocioeconomic indicators and demographic variables\n\nThe key variables we expect to use are:\n\ndate\nnew_cases\nnew_cases_smoothed\ntotal_cases\nnew_deaths\ntotal_deaths\nreproduction_rate\n\nThroughout this project, we primarily use the smoothed variables provided in the dataset whenever they are available. Daily COVID-19 data are affected by reporting delays and systematic weekend effects, which can introduce artificial fluctuations in the time series. The smoothed variables reduce these short-term irregularities and therefore provide a better representation of the underlying trends that are relevant for our analyses. Unless otherwise stated, all analyses are based on the smoothed versions of the variables."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "StatProg2_project",
+    "section": "",
+    "text": "COVID-19 Vaccination in Germany\nWelcome to our StatProg2 project.\nThis project investigates the development of COVID-19 vaccination coverage in Germany and explores its relationship with COVID-19 mortality and ICU occupancy using publicly available data from Our World in Data.\nThe project was developed by\n\nLukas Seibold\nFelix Obermaier\n\nUse the navigation bar above to explore\n\nthe project proposal,\nthe dataset,\nour analysis,\nand the final results."
   }
 ]
