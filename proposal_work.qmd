@@ -1,0 +1,149 @@
+---
+title: "test covid data"
+format: html
+editor: visual
+---
+
+## Test
+
+```{r}
+library(tidyverse)
+library(readr)
+
+covid_germany = read_delim("covid_germany.csv")
+view(covid_germany)
+```
+
+```{r}
+install.packages("skimr")
+library(skimr)
+
+skim = skim(covid_germany)
+view(skim)
+```
+
+```{r}
+install.packages("naniar")
+library(naniar)
+
+# Summary of missings by variable
+miss_var_summary(covid_germany)
+
+# Visualise missing pattern
+vis_miss(covid_germany)
+```
+
+Für Aufgabe 3:
+
+Einige Variablen haben **gar keine Daten** für Deutschland (`hosp_patients`, `extreme_poverty`, `handwashing_facilities` → komplett schwarz).
+
+- Impfvariablen haben erst später Werte → unten grau, oben schwarz.
+
+- ICU-Variablen haben viele, aber nicht alle Missing Values.
+
+- Die Missing Values treten häufig **blockweise über die Zeit** auf und nicht zufällig.
+
+```{r}
+summary(covid_germany$people_vaccinated_per_hundred)
+
+summary(covid_germany$people_fully_vaccinated_per_hundred)
+
+summary(covid_germany$icu_patients)
+
+summary(covid_germany$new_deaths)
+```
+
+```{r}
+install.packages("patchwork")
+```
+
+```{r}
+library(dplyr)
+library(tidyverse)
+```
+
+## Ausarbeitung der Research Questions:
+
+### RQ1:
+
+**Model specification — RQ1**
+
+- **Response:** `people_fully_vaccinated_per_hundred`
+
+- **Predictor:** `date`
+
+- **Filter:** restricted to rows where `people_fully_vaccinated_per_hundred` is not missing (vaccination reporting only begins in early 2021)
+
+- **Method:** `geom_line` (raw trajectory) plus a LOESS-smoothed trend line (`geom_smooth`) as a trial, to assess whether smoothing adds clarity over the raw reporting data
+
+- **Expected output:** a time-series plot showing the trajectory of full vaccination coverage, from which we identify and qualitatively describe the main campaign phases (onset, steep rise, plateau near 78%)
+
+- **Interpretation:** the plot characterizes how full vaccination coverage evolved over time; no comparison to other variables or causal claims are made at this stage
+
+Can the Data actually support this? - **Sanity Check:**
+
+```{r}
+glimpse(covid_germany)
+```
+
+We confirmed that `date`, `people_fully_vaccinated_per_hundred` and `new_vaccinations_smoothed`have the correct date types in order for us to create the planned line plot (Date and double) using glimpse().
+
+```{r}
+#check variable people_fully_vaccinated_per_hundred
+covid_germany %>%
+  filter(!is.na(people_fully_vaccinated_per_hundred)) %>%
+  summarise(start = min(date), end = max(date))
+
+covid_germany %>%
+  filter(!is.na(people_fully_vaccinated_per_hundred)) %>%
+  arrange(date) %>%
+  mutate(gap = as.numeric(date - lag(date))) %>%
+  summarise(max_gap = max(gap, na.rm = TRUE))
+```
+
+The Data coverage on vaccination stars in January of 2021 and ends in July of 2023. In this time range the data coverage is very good with a maximum gap of 1 day without coverage.
+
+```{r}
+#check variable new_vaccinations_smoothed
+covid_germany %>%
+  filter(!is.na(new_vaccinations_smoothed)) %>%
+  summarise(start = min(date), end = max(date))
+
+covid_germany %>%
+  filter(!is.na(new_vaccinations_smoothed)) %>%
+  arrange(date) %>%
+  mutate(gap = as.numeric(date - lag(date))) %>%
+  summarise(max_gap = max(gap, na.rm = TRUE))
+```
+
+By using the same method as before we now found out that the data for `new_vaccinations_smoothed`ranges from December 2020 until July 2023 datewise. Also just like with `people_fully_vaccinated_per_hundred` the coverage for this variable is very good.
+
+As we explored in the *Domain-informed quality checks* part of our Proposal, the values of `people_fully_vaccinated_per_hundred` ranges from 0 to 78, which is enough variation to detect distinct phases over the available period.
+
+```{r}
+covid_germany %>%
+  filter(!is.na(new_vaccinations_smoothed)) %>%
+  summarise(
+    min = min(new_vaccinations_smoothed),
+    max = max(new_vaccinations_smoothed),
+    mean = mean(new_vaccinations_smoothed),
+    sd = sd(new_vaccinations_smoothed)
+  )
+```
+
+The variation of values as well as the variance of `new_vaccinations_smoothed` is also going to be sufficient to answer our research question.
+
+## covid_germany cleanen
+
+```{r}
+covid1 <- covid_germany
+```
+
+```{r}
+covid2 <- covid1 %>%
+  select(where(~ all(is.na(.))))
+```
+
+```{r}
+
+```
