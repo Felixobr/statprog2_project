@@ -31,6 +31,7 @@ covid_germany <- read_delim("data2/covid_germany.csv")
   - We documented the complete cleaning process in a seperate file called data_cleaning_covid.qmd, which can be found in our github repository. All of the data we used is stored there as well in the folder "data".
 
 ```{r}
+#| eval: false
 library(readr)
 library(tidyverse)
 
@@ -271,12 +272,14 @@ Both COVID-19 cases and deaths exhibit clear wave-like patterns over time. Peaks
 #### Can the data support our RQ1? – Sanity Check
 
 ```{r}
+#| eval: false
 glimpse(covid_germany)
 ```
 
 We confirmed that `date`, `people_fully_vaccinated_per_hundred` and `new_vaccinations_smoothed`have the correct data types in order for us to create the planned line plot (Date and double) using glimpse().
 
 ```{r}
+#| eval: false
 #check variable people_fully_vaccinated_per_hundred
 covid_germany %>%
   filter(!is.na(people_fully_vaccinated_per_hundred)) %>%
@@ -292,6 +295,7 @@ covid_germany %>%
 The Data coverage on vaccination starts in January of 2021 and ends in July of 2023. In this time range the data coverage is very good with a maximum gap of 1 day without coverage.
 
 ```{r}
+#| eval: false
 #check variable new_vaccinations_smoothed
 covid_germany %>%
   filter(!is.na(new_vaccinations_smoothed)) %>%
@@ -309,6 +313,7 @@ By using the same method as before we now found out that the data for `new_vacci
 As we explored in the *Domain-informed quality checks* part of our Proposal, the values of `people_fully_vaccinated_per_hundred` ranges from 0 to 78, which is enough variation to detect distinct phases over the available period.
 
 ```{r}
+#| eval: false
 covid_germany %>%
   filter(!is.na(new_vaccinations_smoothed)) %>%
   summarise(
