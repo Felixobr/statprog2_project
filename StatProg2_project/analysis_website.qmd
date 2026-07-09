@@ -1,6 +1,7 @@
-------------------------------------------------------------------------
-
-title: "COVID-19 Vaccination and Disease Severity in Germany" format: html ------------
+---
+title: "COVID-19 Vaccination and Disease Severity in Germany"
+format: html
+---
 
 ```{r}
 #| label: setup
@@ -58,7 +59,7 @@ Our project addresses the following questions:
 
 -   **Filter:** restricted to rows where `people_fully_vaccinated_per_hundred` is not missing (vaccination reporting only begins in early 2021)
 
--   **Method:** `geom_line` (raw trajectory) plus a LOESS-smoothed trend line (`geom_smooth`) as a trial, to assess whether smoothing adds clarity over the raw reporting data
+-   **Method:** `geom_line` (raw trajectory)
 
 -   **Expected output:** a time-series plot showing the trajectory of full vaccination coverage, from which we identify and qualitatively describe the main campaign phases (onset, steep rise, plateau near 78%)
 
@@ -121,10 +122,10 @@ The variation of values as well as the variance of `new_vaccinations_smoothed` i
 covid_germany %>%
   filter(!is.na(people_fully_vaccinated_per_hundred)) %>% 
   ggplot(
-    aes(x = date, y = people_vaccinated_per_hundred)
+    aes(x = date, y = people_fully_vaccinated_per_hundred)
   ) +
    geom_line(
-      colour = "#2C7FB8",
+      colour = "steelblue",
       linewidth = 1
     ) +
     labs(
@@ -144,7 +145,23 @@ covid_germany %>%
     )
 ```
 
-This figure illustrates how vaccination coverage developed throughout the pandemic.
+Vaccination coverage increased rapidly after the campaign started in early 2021. During the first half of 2021 the slope is steep, indicating a fast rollout of vaccinations. Growth slowed substantially during late 2021 and eventually reached a plateau around 76–78% of the population. Afterwards only minor increases were observed until reporting ended in mid-2023.
+
+```{r}
+covid_germany %>%
+  filter(!is.na(new_vaccinations_smoothed)) %>%
+  ggplot(aes(date, new_vaccinations_smoothed)) +
+  geom_line(color = "steelblue") +
+  labs(
+    title = "Daily Vaccination Activity",
+    subtitle = "7-day smoothed number of vaccinations",
+    x = "Date",
+    y = "New vaccinations"
+  ) +
+  theme_minimal()
+```
+
+In contrast to cumulative vaccination coverage, daily vaccination activity exhibits a pronounced peak during the first vaccination campaign in 2021. Afterwards vaccination activity declined steadily with only smaller temporary increases during later booster campaigns.
 
 ## Vaccination and Mortality
 

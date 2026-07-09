@@ -1,17 +1,88 @@
+```{r}
+#| label: setup
+#| include: false
+
+library(tidyverse)
+library(skimr)
+library(infer)
+
+covid_germany <- read_delim("data2/covid_germany.csv")
+```
 # Results
 
-The project is currently under development.
+## Research Question 1
 
-The answers to the research questions will be added throughout the semester.
+How did COVID-19 vaccination coverage in Germany change over time?
 
-## Question 1
+```{r}
+#| label: fig-rq1-coverage
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-cap: "Development of full COVID-19 vaccination coverage in Germany."
+
+covid_germany %>%
+  filter(!is.na(people_fully_vaccinated_per_hundred)) %>% 
+  ggplot(
+    aes(x = date, y = people_fully_vaccinated_per_hundred)
+  ) +
+   geom_line(
+      colour = "steelblue",
+      linewidth = 1
+    ) +
+    labs(
+      title = "COVID-19 vaccination coverage in Germany",
+      subtitle = "People vaccinated per 100 inhabitants",
+      x = "Date",
+      y = "Vaccination coverage (%)"
+    ) +
+    scale_x_date(date_breaks = "2 months",
+                date_labels = "%b\n%Y") +
+    theme_minimal() +
+    theme(
+      plot.title = element_text(face = "bold", size = 16),
+      plot.subtitle = element_text(size = 11),
+      axis.title = element_text(size = 12),
+      axis.text = element_text(size = 10)
+    )
+```
+
+Figure @fig-rq1-coverage shows the development of full COVID-19 vaccination coverage in Germany over time. Vaccination coverage started to increase in early 2021, when vaccination reporting became available in the dataset. During the first half of 2021, the curve rises steeply, indicating the main rollout phase of the vaccination campaign.
+
+After this initial phase, the increase in full vaccination coverage slowed down considerably. Towards the end of 2021 and during 2022, the curve approaches a plateau of roughly 76–78% of the population. From this point onward, only small additional increases are visible.
+
+```{r}
+#| label: fig-rq1-activity
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-cap: "Daily COVID-19 vaccination activity in Germany."
+
+covid_germany %>%
+  filter(!is.na(new_vaccinations_smoothed)) %>%
+  ggplot(aes(date, new_vaccinations_smoothed)) +
+  geom_line(color = "steelblue") +
+  labs(
+    title = "Daily Vaccination Activity",
+    subtitle = "7-day smoothed number of vaccinations",
+    x = "Date",
+    y = "New vaccinations"
+  ) +
+  theme_minimal()
+```
+
+Figure @fig-rq1-activity shows the smoothed number of daily new vaccinations. In contrast to cumulative vaccination coverage, this variable does not increase continuously. Instead, it shows distinct waves of vaccination activity.
+
+The largest peak occurs during the initial rollout in 2021. After this peak, daily vaccination activity declines strongly. Later increases are visible, but they are much smaller than the first peak. These later waves may correspond to additional vaccination phases, such as booster campaigns.
+
+Overall, Germany experienced a rapid increase in full vaccination coverage during 2021, followed by a stabilization at around 76–78%. Daily vaccination activity was highest during the initial rollout and declined substantially afterwards.
+
+Our descriptive analysis indicates that vaccination coverage in Germany increased rapidly during the first vaccination campaign in 2021 and stabilized afterwards. This answers the first research question and provides the basis for investigating whether vaccination coverage was associated with disease severity in the following analyses.
+
+## Research Question 2a
 
 Work in progress.
 
-## Question 2a
-
-Work in progress.
-
-## Question 2b
+## Research Question 2b
 
 Work in progress.

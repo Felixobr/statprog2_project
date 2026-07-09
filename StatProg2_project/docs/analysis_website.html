@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>analysis_website – StatProg2_project - COVID-19 Vaccination in Germany</title>
+<title>COVID-19 Vaccination and Disease Severity in Germany – StatProg2_project - COVID-19 Vaccination in Germany</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -185,13 +185,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">COVID-19 Vaccination and Disease Severity in Germany</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<hr>
-<p>title: “COVID-19 Vaccination and Disease Severity in Germany” format: html ————</p>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
 <p>This project investigates the development of COVID-19 vaccination coverage in Germany and explores whether vaccination rates were associated with measures of disease severity during the pandemic.</p>
@@ -234,7 +248,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><strong>Response:</strong> <code>people_fully_vaccinated_per_hundred</code></p></li>
 <li><p><strong>Predictor:</strong> <code>date</code></p></li>
 <li><p><strong>Filter:</strong> restricted to rows where <code>people_fully_vaccinated_per_hundred</code> is not missing (vaccination reporting only begins in early 2021)</p></li>
-<li><p><strong>Method:</strong> <code>geom_line</code> (raw trajectory) plus a LOESS-smoothed trend line (<code>geom_smooth</code>) as a trial, to assess whether smoothing adds clarity over the raw reporting data</p></li>
+<li><p><strong>Method:</strong> <code>geom_line</code> (raw trajectory)</p></li>
 <li><p><strong>Expected output:</strong> a time-series plot showing the trajectory of full vaccination coverage, from which we identify and qualitatively describe the main campaign phases (onset, steep rise, plateau near 78%)</p></li>
 <li><p><strong>Interpretation:</strong> the plot characterizes how full vaccination coverage evolved over time; no comparison to other variables or causal claims are made at this stage</p></li>
 </ul>
@@ -380,10 +394,10 @@ $ excess_mortality_cumulative_per_million    &lt;dbl&gt; -9.13, NA, NA, NA, NA, 
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>covid_germany <span class="sc">%&gt;%</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(people_fully_vaccinated_per_hundred)) <span class="sc">%&gt;%</span> </span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> people_vaccinated_per_hundred)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> people_fully_vaccinated_per_hundred)</span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_line</span>(</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">colour =</span> <span class="st">"#2C7FB8"</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">colour =</span> <span class="st">"steelblue"</span>,</span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">linewidth =</span> <span class="dv">1</span></span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
@@ -409,21 +423,42 @@ $ excess_mortality_cumulative_per_million    &lt;dbl&gt; -9.13, NA, NA, NA, NA, 
 </div>
 </div>
 </div>
-<p>This figure illustrates how vaccination coverage developed throughout the pandemic.</p>
+<p>Vaccination coverage increased rapidly after the campaign started in early 2021. During the first half of 2021 the slope is steep, indicating a fast rollout of vaccinations. Growth slowed substantially during late 2021 and eventually reached a plateau around 76–78% of the population. Afterwards only minor increases were observed until reporting ended in mid-2023.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>covid_germany <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(new_vaccinations_smoothed)) <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(date, new_vaccinations_smoothed)) <span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Daily Vaccination Activity"</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"7-day smoothed number of vaccinations"</span>,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Date"</span>,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"New vaccinations"</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_website_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In contrast to cumulative vaccination coverage, daily vaccination activity exhibits a pronounced peak during the first vaccination campaign in 2021. Afterwards vaccination activity declined steadily with only smaller temporary increases during later booster campaigns.</p>
 </section>
 </section>
 </section>
 <section id="vaccination-and-mortality" class="level2">
 <h2 class="anchored" data-anchor-id="vaccination-and-mortality">Vaccination and Mortality</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mortality analysis</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mortality analysis</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The first analyses explore whether periods with higher vaccination coverage were accompanied by lower numbers of COVID-19 deaths.</p>
 </section>
 <section id="vaccination-and-icu-occupancy" class="level2">
 <h2 class="anchored" data-anchor-id="vaccination-and-icu-occupancy">Vaccination and ICU Occupancy</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ICU analysis</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ICU analysis</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This section investigates the relationship between vaccination coverage and ICU occupancy over time.</p>
 </section>
@@ -526,7 +561,7 @@ $ excess_mortality_cumulative_per_million    &lt;dbl&gt; -9.13, NA, NA, NA, NA, 
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/Felixobr\.github\.io\/statprog2_project\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

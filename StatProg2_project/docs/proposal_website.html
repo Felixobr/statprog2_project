@@ -167,7 +167,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#research-questions" id="toc-research-questions" class="nav-link active" data-scroll-target="#research-questions">Research Questions</a>
+  <li><a href="#proposal-for-statprog2-projekt" id="toc-proposal-for-statprog2-projekt" class="nav-link active" data-scroll-target="#proposal-for-statprog2-projekt"><strong><em>Proposal for StatProg2 Projekt</em></strong></a>
+  <ul class="collapse">
+  <li><a href="#dataset-and-research-questions" id="toc-dataset-and-research-questions" class="nav-link" data-scroll-target="#dataset-and-research-questions">Dataset and research questions:</a></li>
+  <li><a href="#what-is-in-the-data-set" id="toc-what-is-in-the-data-set" class="nav-link" data-scroll-target="#what-is-in-the-data-set">What is in the data set?</a></li>
+  <li><a href="#research-questions" id="toc-research-questions" class="nav-link" data-scroll-target="#research-questions">Research Questions</a>
   <ul class="collapse">
   <li><a href="#question-1-how-did-vaccination-coverage-in-germany-develop-during-the-covid-19-pandemic" id="toc-question-1-how-did-vaccination-coverage-in-germany-develop-during-the-covid-19-pandemic" class="nav-link" data-scroll-target="#question-1-how-did-vaccination-coverage-in-germany-develop-during-the-covid-19-pandemic">Question 1: How did vaccination coverage in Germany develop during the COVID-19 pandemic?</a></li>
   <li><a href="#question-2-how-did-vaccination-coverage-relate-to-different-dimensions-of-covid-19-severity-in-germany" id="toc-question-2-how-did-vaccination-coverage-relate-to-different-dimensions-of-covid-19-severity-in-germany" class="nav-link" data-scroll-target="#question-2-how-did-vaccination-coverage-relate-to-different-dimensions-of-covid-19-severity-in-germany">Question 2: How did vaccination coverage relate to different dimensions of COVID-19 severity in Germany?</a></li>
@@ -183,6 +187,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#research-question-1" id="toc-research-question-1" class="nav-link" data-scroll-target="#research-question-1">Research Question 1</a></li>
   </ul></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -192,13 +197,91 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
+<section id="proposal-for-statprog2-projekt" class="level1">
+<h1><strong><em>Proposal for StatProg2 Projekt</em></strong></h1>
+<section id="by-lukas-seibold-and-felix-obermaier" class="level4">
+<h4 class="anchored" data-anchor-id="by-lukas-seibold-and-felix-obermaier">by Lukas Seibold and Felix Obermaier</h4>
+</section>
+<section id="dataset-and-research-questions" class="level2">
+<h2 class="anchored" data-anchor-id="dataset-and-research-questions">Dataset and research questions:</h2>
+<ul>
+<li><p><strong>Source and licence:</strong></p>
+<ul>
+<li><p>The Data set is from the following website: <a href="https://ourworldindata.org/explorers/covid?Metric=Excess+mortality+%28estimates%29&amp;Interval=Cumulative&amp;Relative+to+population=true&amp;country=USA~BRA~JPN~DEU">OWID - Covid Dataset</a></p></li>
+<li><p>It can be downloaded in the following github repository: <a href="https://github.com/owid/covid-19-data/tree/master/public/data">OWID - github repository COVID</a></p></li>
+<li><p>The dataset is called owid-covid-data.csv</p></li>
+<li><p>The Dataset contains all Data on Covid in the years 2020 - 2024 in all countries of the world</p></li>
+<li><p>We decided we only want to look at german Data on covid so we filtered it by country</p></li>
+<li><p>Then we cleaned it, by removing all variables, that only contained NAs (6 variables removed)</p></li>
+<li><p>We documented the complete cleaning process in a seperate file called data_cleaning_covid.qmd, which can be found in our github repository. All of the data we used is stored there as well in the folder “data”.</p></li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>covid_germany <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">"data/covid_germany.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li><p><strong>Licence:</strong></p>
+<ul>
+<li><p>The <em>Our World in Data Covid Dataset</em> combines COVID-19 data from several official and scientific sources, including:</p>
+<ul>
+<li><p><a href="https://github.com/CSSEGISandData/COVID-19?utm_source=chatgpt.com">Johns Hopkins University (JHU CSSE)</a> for confirmed cases and deaths</p></li>
+<li><p>official national health authorities for vaccination and hospitalization data</p></li>
+<li><p>the <a href="https://www.bsg.ox.ac.uk/research/research-projects/covid-19-government-response-tracker?utm_source=chatgpt.com">Oxford COVID‑19 Government Response Tracker</a> for policy measures</p></li>
+<li><p>international organizations such as the UN, World Bank, OECD, and IHME for demographic and socioeconomic indicators.</p></li>
+</ul>
+<p>The dataset is published under the <strong>Creative Commons Attribution (CC BY) license</strong>.</p>
+<p>This license allows users to:</p>
+<ul>
+<li><p>use the data freely,</p></li>
+<li><p>copy and redistribute it,</p></li>
+<li><p>modify and adapt it,</p></li>
+<li><p>use it commercially,</p></li>
+<li><p>and include it in research or presentations,</p></li>
+</ul>
+<p>as long as proper attribution to Our World in Data and the original data sources is provided.</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="what-is-in-the-data-set" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-in-the-data-set">What is in the data set?</h2>
+<p>The data set contains daily COVID-19 observations for Germany from January 2020 until August 2024.</p>
+<ul>
+<li>Number of rows: 1674</li>
+<li>Number of columns: 61</li>
+</ul>
+<p>Each row represents one day of reported COVID-19 data in Germany.</p>
+<p>The data set includes information on:</p>
+<ul>
+<li>COVID-19 cases (e.g.&nbsp;<code>total_cases</code>, <code>new_cases</code>, <code>new_cases_smoothed</code>)</li>
+<li>COVID-19 deaths (e.g.&nbsp;<code>total_deaths</code>, <code>new_deaths</code>)</li>
+<li>Reproduction rate (<code>reproduction_rate</code>)</li>
+<li>Hospital and ICU patients (<code>hosp_patients</code>, <code>icu_patients</code>)</li>
+<li>Vaccination indicators</li>
+<li>Testing statistics</li>
+<li>Socioeconomic indicators and demographic variables</li>
+</ul>
+<p>The key variables we expect to use are:</p>
+<ul>
+<li><code>date</code></li>
+<li><code>new_cases</code></li>
+<li><code>new_cases_smoothed</code></li>
+<li><code>total_cases</code></li>
+<li><code>new_deaths</code></li>
+<li><code>total_deaths</code></li>
+<li><code>reproduction_rate</code></li>
+</ul>
+<p>Throughout this project, we primarily use the smoothed variables provided in the dataset whenever they are available. Daily COVID-19 data are affected by reporting delays and systematic weekend effects, which can introduce artificial fluctuations in the time series. The smoothed variables reduce these short-term irregularities and therefore provide a better representation of the underlying trends that are relevant for our analyses. Unless otherwise stated, all analyses are based on the smoothed versions of the variables.</p>
+</section>
 <section id="research-questions" class="level2">
 <h2 class="anchored" data-anchor-id="research-questions">Research Questions</h2>
 <section id="question-1-how-did-vaccination-coverage-in-germany-develop-during-the-covid-19-pandemic" class="level3">
 <h3 class="anchored" data-anchor-id="question-1-how-did-vaccination-coverage-in-germany-develop-during-the-covid-19-pandemic">Question 1: How did vaccination coverage in Germany develop during the COVID-19 pandemic?</h3>
 <p>We will analyse <code>people_fully_vaccinated_per_hundred</code> together with <code>new_vaccinations_smoothed</code> and <code>date</code>, to analyse the development of COVID-19 vaccination coverage in Germany. Using line plots and descriptive statistics, we will identify the start of the vaccination campaign, periods of rapid vaccine uptake, peak vaccination activity, and the later plateau in vaccination coverage.</p>
 <p><strong>Goal:</strong> Descriptive</p>
-<p><strong>Type:</strong> Confirmatory</p>
+<p><strong>Type:</strong> Exploratory</p>
 <hr>
 </section>
 <section id="question-2-how-did-vaccination-coverage-relate-to-different-dimensions-of-covid-19-severity-in-germany" class="level3">
@@ -241,29 +324,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h4 class="anchored" data-anchor-id="structure-of-the-data">Structure of the data</h4>
 <p>We use <code>glimpse()</code> to confirm the dimensions and data types of our key variables.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>covid_germany <span class="sc">%&gt;%</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    date, total_cases, new_cases, new_cases_smoothed,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    total_deaths, new_deaths, new_deaths_smoothed,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    reproduction_rate, icu_patients, hosp_patients,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    people_vaccinated_per_hundred, people_fully_vaccinated_per_hundred,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    stringency_index</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>covid_germany <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    date, total_cases, new_cases, new_cases_smoothed,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    total_deaths, new_deaths, new_deaths_smoothed,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    reproduction_rate, icu_patients,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    people_vaccinated_per_hundred, people_fully_vaccinated_per_hundred,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    stringency_index</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The structure matches our expectations: <code>date</code> is read as a proper <code>date</code> type and all measurement and count variables are numeric. Cumulative variables (<code>total_cases</code>, <code>total_deaths</code>) are present from the start, while smoothed, reproduction, ICU, and vaccination variables only begin later in the pandemic, which is reflected in the leading <code>NA</code> values.</p>
 </section>
 <section id="summary-statistics-for-key-variables" class="level4">
 <h4 class="anchored" data-anchor-id="summary-statistics-for-key-variables">Summary statistics for key variables</h4>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>covid_germany <span class="sc">%&gt;%</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    new_cases, new_cases_smoothed, new_deaths, new_deaths_smoothed,</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    reproduction_rate, icu_patients,</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    people_vaccinated_per_hundred, people_fully_vaccinated_per_hundred,</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    stringency_index</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>covid_germany <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    new_cases, new_cases_smoothed, new_deaths, new_deaths_smoothed,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    reproduction_rate, icu_patients,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    people_vaccinated_per_hundred, people_fully_vaccinated_per_hundred,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    stringency_index</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The table below reports the main summary statistics together with the number of missing values per variable.</p>
 <table class="caption-top table">
@@ -371,7 +454,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="proposal_website_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="proposal_website_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -387,7 +470,7 @@ Removed 397 rows containing missing values or values outside the scale range
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="proposal_website_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="proposal_website_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -438,72 +521,7 @@ Removed 397 rows containing missing values or values outside the scale range
 <section id="can-the-data-support-our-rq1-sanity-check" class="level4">
 <h4 class="anchored" data-anchor-id="can-the-data-support-our-rq1-sanity-check">Can the data support our RQ1? – Sanity Check</h4>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(covid_germany)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Rows: 1,674
-Columns: 61
-$ iso_code                                   &lt;chr&gt; "DEU", "DEU", "DEU", "DEU",…
-$ continent                                  &lt;chr&gt; "Europe", "Europe", "Europe…
-$ location                                   &lt;chr&gt; "Germany", "Germany", "Germ…
-$ date                                       &lt;date&gt; 2020-01-05, 2020-01-06, 20…
-$ total_cases                                &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, …
-$ new_cases                                  &lt;dbl&gt; 1, 0, 0, 0, 0, 0, 0, 0, 0, …
-$ new_cases_smoothed                         &lt;dbl&gt; NA, NA, NA, NA, NA, 0.14, 0…
-$ total_deaths                               &lt;dbl&gt; 3, 3, 3, 3, 3, 3, 3, 3, 3, …
-$ new_deaths                                 &lt;dbl&gt; 3, 0, 0, 0, 0, 0, 0, 0, 0, …
-$ new_deaths_smoothed                        &lt;dbl&gt; NA, NA, NA, NA, NA, 0.43, 0…
-$ total_cases_per_million                    &lt;dbl&gt; 0.01, 0.01, 0.01, 0.01, 0.0…
-$ new_cases_per_million                      &lt;dbl&gt; 0.01, 0.00, 0.00, 0.00, 0.0…
-$ new_cases_smoothed_per_million             &lt;dbl&gt; NA, NA, NA, NA, NA, 0, 0, 0…
-$ total_deaths_per_million                   &lt;dbl&gt; 0.04, 0.04, 0.04, 0.04, 0.0…
-$ new_deaths_per_million                     &lt;dbl&gt; 0.04, 0.00, 0.00, 0.00, 0.0…
-$ new_deaths_smoothed_per_million            &lt;dbl&gt; NA, NA, NA, NA, NA, 0, 0, 0…
-$ reproduction_rate                          &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ icu_patients                               &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ icu_patients_per_million                   &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ weekly_icu_admissions                      &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ weekly_icu_admissions_per_million          &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ weekly_hosp_admissions                     &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ weekly_hosp_admissions_per_million         &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ total_tests                                &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ total_tests_per_thousand                   &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ new_tests_smoothed                         &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ new_tests_smoothed_per_thousand            &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ positive_rate                              &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ tests_per_case                             &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ tests_units                                &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ total_vaccinations                         &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ people_vaccinated                          &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ people_fully_vaccinated                    &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ total_boosters                             &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ new_vaccinations                           &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ new_vaccinations_smoothed                  &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ total_vaccinations_per_hundred             &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ people_vaccinated_per_hundred              &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ people_fully_vaccinated_per_hundred        &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ total_boosters_per_hundred                 &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ new_vaccinations_smoothed_per_million      &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ new_people_vaccinated_smoothed             &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ new_people_vaccinated_smoothed_per_hundred &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ stringency_index                           &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.0…
-$ population_density                         &lt;dbl&gt; 237.02, 237.02, 237.02, 237…
-$ median_age                                 &lt;dbl&gt; 46.6, 46.6, 46.6, 46.6, 46.…
-$ aged_65_older                              &lt;dbl&gt; 21.45, 21.45, 21.45, 21.45,…
-$ aged_70_older                              &lt;dbl&gt; 15.96, 15.96, 15.96, 15.96,…
-$ gdp_per_capita                             &lt;dbl&gt; 45229.24, 45229.24, 45229.2…
-$ cardiovasc_death_rate                      &lt;dbl&gt; 156.14, 156.14, 156.14, 156…
-$ diabetes_prevalence                        &lt;dbl&gt; 8.31, 8.31, 8.31, 8.31, 8.3…
-$ female_smokers                             &lt;dbl&gt; 28.2, 28.2, 28.2, 28.2, 28.…
-$ male_smokers                               &lt;dbl&gt; 33.1, 33.1, 33.1, 33.1, 33.…
-$ hospital_beds_per_thousand                 &lt;dbl&gt; 8, 8, 8, 8, 8, 8, 8, 8, 8, …
-$ life_expectancy                            &lt;dbl&gt; 81.33, 81.33, 81.33, 81.33,…
-$ human_development_index                    &lt;dbl&gt; 0.95, 0.95, 0.95, 0.95, 0.9…
-$ population                                 &lt;dbl&gt; 83369840, 83369840, 8336984…
-$ excess_mortality_cumulative_absolute       &lt;dbl&gt; -760.7, NA, NA, NA, NA, NA,…
-$ excess_mortality_cumulative                &lt;dbl&gt; -3.87, NA, NA, NA, NA, NA, …
-$ excess_mortality                           &lt;dbl&gt; -3.87, NA, NA, NA, NA, NA, …
-$ excess_mortality_cumulative_per_million    &lt;dbl&gt; -9.13, NA, NA, NA, NA, NA, …</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(covid_germany)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We confirmed that <code>date</code>, <code>people_fully_vaccinated_per_hundred</code> and <code>new_vaccinations_smoothed</code>have the correct data types in order for us to create the planned line plot (Date and double) using glimpse().</p>
 <div class="cell">
@@ -518,7 +536,7 @@ $ excess_mortality_cumulative_per_million    &lt;dbl&gt; -9.13, NA, NA, NA, NA, 
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">gap =</span> <span class="fu">as.numeric</span>(date <span class="sc">-</span> <span class="fu">lag</span>(date))) <span class="sc">%&gt;%</span></span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">max_gap =</span> <span class="fu">max</span>(gap, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>The Data coverage on vaccination stars in January of 2021 and ends in July of 2023. In this time range the data coverage is very good with a maximum gap of 1 day without coverage.</p>
+<p>The Data coverage on vaccination starts in January of 2021 and ends in July of 2023. In this time range the data coverage is very good with a maximum gap of 1 day without coverage.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#check variable new_vaccinations_smoothed</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>covid_germany <span class="sc">%&gt;%</span></span>
@@ -544,8 +562,28 @@ $ excess_mortality_cumulative_per_million    &lt;dbl&gt; -9.13, NA, NA, NA, NA, 
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The variation of values as well as the variance of <code>new_vaccinations_smoothed</code> is also going to be sufficient to answer our research question.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>covid_germany <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(people_fully_vaccinated_per_hundred)) <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> date,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> people_fully_vaccinated_per_hundred</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>))<span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()<span class="sc">+</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Development of vaccination coverage in Germany during Covid"</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"People fully vaccinated per hundred"</span>,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Source: Our World in Data COVID-19 dataset"</span>)<span class="sc">+</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="proposal_website_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" alt="Line chart showing the share of people fully vaccinated against COVID-19 in Germany from late 2020 to 2023. The line starts near zero in early 2021, rises steeply through 2021, and then levels off at around 76 percent." width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
+</section>
 </section>
 </section>
 </section>
