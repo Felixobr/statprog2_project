@@ -27,7 +27,7 @@ The dataset contains daily observations for Germany between 2020 and 2024.
 For our analyses we mainly use the following variables:
 
 -   `date`
--   `people_vaccinated_per_hundred`
+-   `people_fully_vaccinated_per_hundred`
 -   `new_deaths_smoothed`
 -   `icu_patients`
 -   `new_cases_smoothed` (for context)
