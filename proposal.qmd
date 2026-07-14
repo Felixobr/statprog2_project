@@ -311,6 +311,103 @@ covid_germany %>%
 
 The variation of values as well as the variance of `new_vaccinations_smoothed` is also going to be sufficient to answer our research question.
 
+### Research Question 2
+
+#### **Model specification — RQ2a**
+
+- **Response:** `new_deaths_smoothed` — daily new confirmed COVID-19 deaths, 7-day smoothed (`<dbl>`)
+
+- **Predictor:** `people_vaccinated_per_hundred` — share of people with at least one dose (`<dbl>`)
+
+- **Filter:** restricted to rows where both variables are not missing (vaccination reporting only begins in late December 2020, which is the binding constraint)
+
+- **Method:** Pearson correlation between the two variables, tested with the theory-based `{infer}` pipeline (`specify() → assume("t")` / `calculate(stat = "correlation")`), plus a scatter plot to inspect the shape of the relationship
+
+- **Expected output:** the observed correlation coefficient, a *p*-value, a 95% confidence interval, and a scatter plot of mortality against vaccination coverage
+
+- **Interpretation:** the sign of the coefficient tells us whether days with higher vaccination coverage tended to have lower mortality; because both variables move over time, the association is exploratory and no causal claims are made
+
+#### **Model specification — RQ2b**
+
+- **Response:** `icu_patients` — number of COVID-19 patients in intensive care on a given day (`<dbl>`)
+
+- **Predictor:** `people_vaccinated_per_hundred` — share of people with at least one dose (`<dbl>`)
+
+- **Filter:** restricted to rows where both variables are not missing (same binding constraint as RQ2a)
+
+- **Method:** same as RQ2a — Pearson correlation via the theory-based `{infer}` pipeline, plus a scatter plot
+
+- **Expected output:** the observed correlation coefficient, a *p*-value, a 95% confidence interval, and a scatter plot of ICU occupancy against vaccination coverage
+
+- **Interpretation:** the sign of the coefficient tells us whether days with higher vaccination coverage tended to have lower ICU occupancy; the ICU lower-bound artefact (minimum value of exactly 100, see quality checks) is kept in mind when interpreting low values, and no causal claims are made
+
+#### Can the data support our RQ2? – Sanity Check
+
+As for RQ1, we first confirm that the variables exist with the correct types using `glimpse()` (see the RQ1 sanity check above): `people_vaccinated_per_hundred`, `new_deaths_smoothed` and `icu_patients` are all doubles, and `date` is a Date, which is what the planned correlation analysis and scatter plots require.
+
+Unlike RQ1, RQ2 compares **two variables at a time**, so the decisive question is not only how well each variable is covered, but whether their reporting periods **overlap**. We therefore check the coverage window of each variable and then the size of the overlap.
+
+```{r}
+covid_germany %>%
+  filter(!is.na(people_vaccinated_per_hundred)) %>%
+  summarise(n = n(), start = min(date), end = max(date))
+
+covid_germany %>%
+  filter(!is.na(people_vaccinated_per_hundred)) %>%
+  arrange(date) %>%
+  mutate(gap = as.numeric(date - lag(date))) %>%
+  summarise(max_gap = max(gap, na.rm = TRUE))
+```
+
+The vaccination coverage data ranges from late December 2020 until April 2023 (832 days) with a maximum gap of 1 day, so the coverage within this window is very good.
+
+```{r}
+covid_germany %>%
+  filter(!is.na(new_deaths_smoothed)) %>%
+  summarise(n = n(), start = min(date), end = max(date))
+
+covid_germany %>%
+  filter(!is.na(icu_patients)) %>%
+  summarise(n = n(), start = min(date), end = max(date))
+```
+
+Both response variables cover a longer period than the vaccination data: `new_deaths_smoothed` runs from January 2020 to July 2023 and `icu_patients` from March 2020 to June 2023, each without gaps larger than 1 day. The vaccination variable is therefore the binding constraint for both sub-questions.
+
+```{r}
+covid_germany %>%
+  filter(!is.na(people_vaccinated_per_hundred),
+         !is.na(new_deaths_smoothed)) %>%
+  summarise(n = n(), start = min(date), end = max(date))
+
+covid_germany %>%
+  filter(!is.na(people_vaccinated_per_hundred),
+         !is.na(icu_patients)) %>%
+  summarise(n = n(), start = min(date), end = max(date))
+```
+
+The overlap is identical for both sub-questions: all 832 days with vaccination data also have mortality and ICU data. This means RQ2a and RQ2b can be analysed on the same time window (2020-12-27 to 2023-04-07), which keeps the two analyses directly comparable.
+
+```{r}
+covid_germany %>%
+  filter(!is.na(people_vaccinated_per_hundred),
+         !is.na(new_deaths_smoothed),
+         !is.na(icu_patients)) %>%
+  summarise(
+    vacc_min = min(people_vaccinated_per_hundred),
+    vacc_max = max(people_vaccinated_per_hundred),
+    deaths_min = min(new_deaths_smoothed),
+    deaths_max = max(new_deaths_smoothed),
+    icu_min = min(icu_patients),
+    icu_max = max(icu_patients)
+  )
+```
+
+Within the window, vaccination coverage rises from close to 0 to about 78 per hundred, smoothed daily deaths range from about 4 to over 800, and ICU occupancy from about 350 to over 5700 patients. All three variables show more than enough variation to estimate a correlation, so the data can support both sub-questions as specified.
+
+## Analysis
+
+### Research Question 1
+
 ```{r}
 #| fig-alt: "Line chart showing the share of people fully vaccinated against COVID-19 in Germany from late 2020 to 2023. The line starts near zero in early 2021, rises steeply through 2021, and then levels off at around 76 percent."
 covid_germany %>% filter(!is.na(people_fully_vaccinated_per_hundred)) %>% ggplot(aes(
@@ -325,3 +422,98 @@ covid_germany %>% filter(!is.na(people_fully_vaccinated_per_hundred)) %>% ggplot
   theme_minimal()
   
 ```
+
+### Research Question 2
+
+#### Inference — correlation test with `{infer}`
+
+We prepare one analysis dataset for both sub-questions, restricted to the overlap window from the sanity check:
+
+```{r}
+rq2_data <- covid_germany %>%
+  filter(!is.na(people_vaccinated_per_hundred),
+         !is.na(new_deaths_smoothed),
+         !is.na(icu_patients)) %>%
+  select(date, people_vaccinated_per_hundred,
+         new_deaths_smoothed, icu_patients)
+```
+
+**RQ2a: vaccination coverage and mortality**
+
+```{r}
+# observed correlation
+obs_cor_deaths <- rq2_data %>%
+  specify(new_deaths_smoothed ~ people_vaccinated_per_hundred) %>%
+  calculate(stat = "correlation")
+
+obs_cor_deaths
+
+# theoretical null distribution and p-value
+null_dist_deaths <- rq2_data %>%
+  specify(new_deaths_smoothed ~ people_vaccinated_per_hundred) %>%
+  assume("t")
+
+null_dist_deaths %>%
+  get_p_value(obs_stat = obs_cor_deaths, direction = "two-sided")
+
+# confidence interval from the equivalent base R test
+cor.test(rq2_data$new_deaths_smoothed,
+         rq2_data$people_vaccinated_per_hundred)
+```
+
+**RQ2b: vaccination coverage and ICU occupancy**
+
+```{r}
+obs_cor_icu <- rq2_data %>%
+  specify(icu_patients ~ people_vaccinated_per_hundred) %>%
+  calculate(stat = "correlation")
+
+obs_cor_icu
+
+null_dist_icu <- rq2_data %>%
+  specify(icu_patients ~ people_vaccinated_per_hundred) %>%
+  assume("t")
+
+null_dist_icu %>%
+  get_p_value(obs_stat = obs_cor_icu, direction = "two-sided")
+
+cor.test(rq2_data$icu_patients,
+         rq2_data$people_vaccinated_per_hundred)
+```
+
+For RQ2a we observe a moderate negative correlation of about r = -0.53 (95% CI roughly -0.58 to -0.48), and for RQ2b a somewhat stronger negative correlation of about r = -0.65 (95% CI roughly -0.69 to -0.61). Both *p*-values are far below any conventional threshold, so a correlation of zero is not compatible with the data.
+
+**One-sentence interpretation (Ex 2.4):** In the period where vaccination data exist, days with higher vaccination coverage tended to have lower COVID-19 mortality and lower ICU occupancy — an exploratory, associational finding that is consistent with our research questions but does not establish a causal effect of vaccination.
+
+## Results
+
+### Research Question 1
+
+### Research Question 2
+
+#### Answering RQ2a: Are higher vaccination rates associated with lower COVID-19 mortality?
+
+```{r} #| fig-alt: "Scatter plot of smoothed daily COVID-19 deaths in Germany against the share of people vaccinated per hundred, from late 2020 to early 2023. Points are coloured by date. Deaths are high at low vaccination coverage in early 2021, drop in mid 2021, rise again during the winter waves, and are low at high coverage in 2022 and 2023. The overall trend is downward." rq2_data %>%   ggplot(aes(x = people_vaccinated_per_hundred,              y = new_deaths_smoothed,              colour = date)) +   geom_point(alpha = 0.6) +   labs(title = "Vaccination coverage and COVID-19 mortality in Germany",        subtitle = "Each point is one day; colour shows the date",        x = "People vaccinated per hundred",        y = "New deaths (7-day smoothed)",        colour = NULL,        caption = "Source: Our World in Data COVID-19 dataset") +   theme_minimal()}
+```
+
+The scatter plot shows the negative association quantified above (r ≈ -0.53): days with higher vaccination coverage tended to have lower smoothed daily deaths. The date colouring also makes the limitation of this comparison visible. Because vaccination coverage only ever increases, the x-axis is closely tied to calendar time: points on the left are from early 2021 and points on the right from 2022/23. The high-mortality points at low coverage belong to the winter wave of early 2021, while the winter wave of 2021/22 appears as a band of elevated deaths at around 60–70 per hundred. So the negative correlation mixes two things we cannot separate here: the protective association of vaccination and everything else that changed over time (variants, seasonality, and restrictions captured in `stringency_index`).
+
+**Answer to RQ2a:** Yes — in our data, higher vaccination rates are associated with lower COVID-19 mortality (r ≈ -0.53, 95% CI -0.58 to -0.48). As stated in our analysis plan, this is an exploratory, associational result: because vaccination coverage rises monotonically over time, calendar time is a strong confounder, and we do not interpret this association causally.
+
+#### Answering RQ2b: Are higher vaccination rates associated with lower ICU occupancy?
+
+```{r} #| fig-alt: "Scatter plot of the number of COVID-19 ICU patients in Germany against the share of people vaccinated per hundred, from late 2020 to early 2023. Points are coloured by date. ICU occupancy is around 3000 to 5700 patients at low vaccination coverage in early 2021, falls in mid 2021, peaks again near 5000 at around 65 per hundred during the winter wave of 2021, and is mostly below 2000 at high coverage in 2022 and 2023. The overall trend is downward." rq2_data %>%   ggplot(aes(x = people_vaccinated_per_hundred,              y = icu_patients,              colour = date)) +   geom_point(alpha = 0.6) +   labs(title = "Vaccination coverage and ICU occupancy in Germany",        subtitle = "Each point is one day; colour shows the date",        x = "People vaccinated per hundred",        y = "COVID-19 patients in intensive care",        colour = NULL,        caption = "Source: Our World in Data COVID-19 dataset") +   theme_minimal()}
+```
+
+The association is negative and somewhat stronger than for mortality (r ≈ -0.65): days with higher vaccination coverage tended to have fewer COVID-19 patients in intensive care. The same time-confounding caveat applies as in RQ2a. In addition, our domain-informed quality checks flagged that the minimum ICU value of exactly 100 looks like a reporting lower bound; since the values in the overlap window start at around 350 patients, this artefact does not affect the analysis here, but we note it for completeness.
+
+**Answer to RQ2b:** Yes — in our data, higher vaccination rates are associated with lower ICU occupancy (r ≈ -0.65, 95% CI -0.69 to -0.61). As with RQ2a, this is an exploratory, associational finding and not evidence of a causal effect, because vaccination coverage and calendar time are inseparable in this dataset.
+
+#### How stable is the association over time?
+
+To make the time-confounding limitation concrete rather than only stating it, we re-computed the correlations within calendar years:
+
+```{r} rq2_data %>%   mutate(year = factor(format(date, "%Y"))) %>%   group_by(year) %>%   summarise(     n = n(),     cor_deaths = cor(people_vaccinated_per_hundred, new_deaths_smoothed),     cor_icu = cor(people_vaccinated_per_hundred, icu_patients)   )}
+```
+
+Within single years the correlations are noticeably weaker and unstable (for example, the ICU correlation is strong in 2022 but close to zero in early 2023, while the mortality correlation weakens in 2022). This confirms that a large part of the overall negative correlation is driven by the long-run trend — coverage rising while the pandemic waned — rather than by a stable day-to-day relationship. It is exactly the behaviour our analysis plan anticipated when it named time as the main confounding risk, and it is the reason we report RQ2 as exploratory.
