@@ -1,0 +1,55 @@
+---
+title: "group_reflection"
+format: html
+editor: visual
+---
+
+## Reflection Log
+
+### Practical 1
+
+Repetition and first time really using the command line.
+
+### Practical 2
+
+The Fibonacci task was quite fun, the error handling and learning to not use too many repetitions of the same code can be helpful in the project.
+
+### Practical 3
+
+In this practical we focused on debugging R code and learned different strategies for finding and fixing errors instead of immediately rewriting the code. Looking back, these skills became very useful during our project, where we repeatedly had to identify problems in our scripts, fix plotting errors and resolve issues caused by package dependencies or changes in our code. It also reminded me that understanding an error message is often the first and most important step towards solving a problem.
+
+### Practical 4
+
+The start was quite technical without really understanding what we had just done, but it was very important for the project to learn how to work with git. For example we learned how to push, pull and manage our repository directly from the command line. Working with .gitignore was also challenging at first and we ran into several problems we had never seen before. With the help of LLMs and by trying things ourselves we eventually managed to solve them. Looking back, this practical was one of the foundations for the whole project.
+
+### Practical 5
+
+It was quite fun to initialize our own website, even though at the beginning we struggled with editing the navigation bar and creating different pages. We also continued working with git commands and intentionally created merge conflicts. Looking back, this practical turned out to be one of the most useful ones because our final project also uses a Quarto website. Later on we actually encountered merge conflicts in our project repository and were able to solve them much more confidently thanks to this practical.
+
+### Practical 6
+
+This weeks practical was quite technical, where we should create a package. It was rather working down a recipe, than actually understanding what we have just done. In the end it sadly did not work properly. Now from the point of the view rather at the end of the semester we have decided to not create our own packages for the project.
+
+### Practical 7
+
+This week's practical was a very good preparation for the first proposal submission. We worked with our chosen dataset for the first time and started thinking about meaningful research questions. We of course used LLMs for support, but it was still necessary to understand the code ourselves and adapt it to our project. During this stage we also experienced our first merge conflict and sometimes ended up doing the same work twice because of communication issues within the group. Even though this was frustrating, it helped us organize our collaboration much better afterwards.
+
+### Practical 8
+
+This week there was no practical, but we finalized our proposal for the submission. With last weeks practical which we have finished during this week, we were pretty close to the submission. In this time we learned more and more how to work with git and github, of course almost always with the help of LLMs at the start, but still with time we managed things like pulling, adding, commiting and pushing, which are from a later point of view pretty easy, better and better.
+
+### Practical 9
+
+This week we refined our research questions. In particular, we split our original second question into questions 2a and 2b because they covered different aspects of the data. We also initialized renv, which caused a surprising number of problems. For example, renv::snapshot() repeatedly failed and took quite some time to fix. Even though we eventually managed to get everything running, working with renv remained one of the more frustrating parts of the project.
+
+### Practical 10
+
+### Practical 11
+
+Over the last two weeks we have worked a lot on the updated proposal as well as on the first actual analysis for our first research question. We created the different pages of our project website and started implementing the analysis plan. This included creating meaningful plots, improving their layout and writing the first interpretations. During this phase we also noticed that presenting results is often much harder than simply producing a figure. We mainly continued improving our project structure. We cleaned up our repository, worked further on our Quarto website and started producing better visualizations. We also spent quite some time checking our data and making sure that the preprocessing steps were correct before continuing with the analysis. Looking back, investing time into cleaning the project structure definitely paid off later.
+
+### Practical 12
+
+### General comments
+
+Working on a real dataset also showed that data cleaning and checking assumptions usually takes much longer than expected. Overall, this project taught us more than just writing R code. We learned how to work collaboratively using Git and GitHub, how to structure a larger project, how to build a reproducible analysis and how important clear communication is when working in a team. Looking back at the beginning of the semester, many of the tasks seemed overwhelming, but by continuously working on the project they gradually became routine. Important was of course also the help of LLMs, especially in writing code and solving problems it helped a lot. But also in bringing up ideas how to handle certain situations it brought up good ideas, but especially in that point one always has to check everything by itself and has to think about everything the LLM says also by itself.
