@@ -1,6 +1,10 @@
 ---
 title: "COVID-19 Vaccination and Disease Severity in Germany"
 format: html
+author: Felix Obermaier, Lukas Seibold
+execute:
+  warning: false
+  message: false
 ---
 
 ```{r}
@@ -8,7 +12,6 @@ format: html
 #| include: false
 
 library(tidyverse)
-library(skimr)
 library(infer)
 
 covid_germany <- read_delim("data2/covid_germany.csv")
@@ -66,13 +69,14 @@ Our project addresses the following questions:
 #### Can the data support our RQ1? – Sanity Check
 
 ```{r}
-glimpse(covid_germany)
+covid_germany %>%
+  select(date, people_fully_vaccinated_per_hundred, new_vaccinations_smoothed) %>%
+  glimpse()
 ```
 
-We confirmed that `date`, `people_fully_vaccinated_per_hundred` and `new_vaccinations_smoothed`have the correct data types in order for us to create the planned line plot (Date and double) using glimpse().
+We confirmed that `date`, `people_fully_vaccinated_per_hundred` and `new_vaccinations_smoothed` have the correct data types in order for us to create the planned line plot (Date and double) using glimpse().
 
 ```{r}
-#check variable people_fully_vaccinated_per_hundred
 covid_germany %>%
   filter(!is.na(people_fully_vaccinated_per_hundred)) %>%
   summarise(start = min(date), end = max(date))
@@ -87,7 +91,6 @@ covid_germany %>%
 The Data coverage on vaccination starts in January of 2021 and ends in July of 2023. In this time range the data coverage is very good with a maximum gap of 1 day without coverage.
 
 ```{r}
-#check variable new_vaccinations_smoothed
 covid_germany %>%
   filter(!is.na(new_vaccinations_smoothed)) %>%
   summarise(start = min(date), end = max(date))
@@ -99,7 +102,7 @@ covid_germany %>%
   summarise(max_gap = max(gap, na.rm = TRUE))
 ```
 
-By using the same method as before we now found out that the data for `new_vaccinations_smoothed`ranges from December 2020 until July 2023 datewise. Also just like with `people_fully_vaccinated_per_hundred` the coverage for this variable is very good.
+By using the same method as before we now found out that the data for `new_vaccinations_smoothed` ranges from December 2020 until July 2023 datewise. Also just like with `people_fully_vaccinated_per_hundred` the coverage for this variable is very good.
 
 As we explored in the *Domain-informed quality checks* part of our Proposal, the values of `people_fully_vaccinated_per_hundred` ranges from 0 to 78, which is enough variation to detect distinct phases over the available period.
 
@@ -171,7 +174,7 @@ In contrast to cumulative vaccination coverage, daily vaccination activity exhib
 
 -   **Filter:** restricted to rows where both variables are not missing (vaccination reporting only begins in late December 2020, which is the binding constraint)
 
--   **Method:** Pearson correlation between the two variables, tested with the theory-based `{infer}` pipeline (`specify() → assume("t")` / `calculate(stat = "correlation")`), plus a scatter plot to inspect the shape of the relationship
+-   **Method:** Pearson correlation, tested with a permutation-based {infer} pipeline (`specify()` → `hypothesize()` → `generate()` → `calculate()`) for the p-value, complemented by `cor.test()` for the theory-based 95 % confidence interval; plus a scatter plot.
 
 -   **Expected output:** the observed correlation coefficient, a *p*-value, a 95% confidence interval, and a scatter plot of mortality against vaccination coverage
 
