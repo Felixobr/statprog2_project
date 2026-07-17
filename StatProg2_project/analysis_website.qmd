@@ -26,11 +26,11 @@ The dataset contains daily observations for Germany between 2020 and 2024.
 
 For our analyses we mainly use the following variables:
 
-- `date`
-- `people_vaccinated_per_hundred`
-- `new_deaths_smoothed`
-- `icu_patients`
-- `new_cases_smoothed` (for context)
+-   `date`
+-   `people_vaccinated_per_hundred`
+-   `new_deaths_smoothed`
+-   `icu_patients`
+-   `new_cases_smoothed` (for context)
 
 Before the analysis, we inspected the dataset for missing values, variable types, and implausible observations.
 
@@ -42,8 +42,8 @@ Our project addresses the following questions:
 
 2.  Was higher vaccination coverage associated with lower COVID-19 severity?
 
-    - Was higher vaccination coverage associated with lower COVID-19 mortality?
-    - Was higher vaccination coverage associated with lower ICU occupancy?
+    -   Was higher vaccination coverage associated with lower COVID-19 mortality?
+    -   Was higher vaccination coverage associated with lower ICU occupancy?
 
 # Preliminary Analysis
 
@@ -51,17 +51,17 @@ Our project addresses the following questions:
 
 #### **Model specification — RQ1**
 
-- **Response:** `people_fully_vaccinated_per_hundred`
+-   **Response:** `people_fully_vaccinated_per_hundred`
 
-- **Predictor:** `date`
+-   **Predictor:** `date`
 
-- **Filter:** restricted to rows where `people_fully_vaccinated_per_hundred` is not missing (vaccination reporting only begins in early 2021)
+-   **Filter:** restricted to rows where `people_fully_vaccinated_per_hundred` is not missing (vaccination reporting only begins in early 2021)
 
-- **Method:** `geom_line` (raw trajectory)
+-   **Method:** `geom_line` (raw trajectory)
 
-- **Expected output:** a time-series plot showing the trajectory of full vaccination coverage, from which we identify and qualitatively describe the main campaign phases (onset, steep rise, plateau near 78%)
+-   **Expected output:** a time-series plot showing the trajectory of full vaccination coverage, from which we identify and qualitatively describe the main campaign phases (onset, steep rise, plateau near 78%)
 
-- **Interpretation:** the plot characterizes how full vaccination coverage evolved over time; no comparison to other variables or causal claims are made at this stage
+-   **Interpretation:** the plot characterizes how full vaccination coverage evolved over time; no comparison to other variables or causal claims are made at this stage
 
 #### Can the data support our RQ1? – Sanity Check
 
@@ -165,31 +165,31 @@ In contrast to cumulative vaccination coverage, daily vaccination activity exhib
 
 #### **Model specification — RQ2a**
 
-- **Response:** `new_deaths_smoothed` — daily new confirmed COVID-19 deaths, 7-day smoothed (`<dbl>`)
+-   **Response:** `new_deaths_smoothed` — daily new confirmed COVID-19 deaths, 7-day smoothed (`<dbl>`)
 
-- **Predictor:** `people_vaccinated_per_hundred` — share of people with at least one dose (`<dbl>`)
+-   **Predictor:** `people_vaccinated_per_hundred` — share of people with at least one dose (`<dbl>`)
 
-- **Filter:** restricted to rows where both variables are not missing (vaccination reporting only begins in late December 2020, which is the binding constraint)
+-   **Filter:** restricted to rows where both variables are not missing (vaccination reporting only begins in late December 2020, which is the binding constraint)
 
-- **Method:** Pearson correlation between the two variables, tested with the theory-based `{infer}` pipeline (`specify() → assume("t")` / `calculate(stat = "correlation")`), plus a scatter plot to inspect the shape of the relationship
+-   **Method:** Pearson correlation between the two variables, tested with the theory-based `{infer}` pipeline (`specify() → assume("t")` / `calculate(stat = "correlation")`), plus a scatter plot to inspect the shape of the relationship
 
-- **Expected output:** the observed correlation coefficient, a *p*-value, a 95% confidence interval, and a scatter plot of mortality against vaccination coverage
+-   **Expected output:** the observed correlation coefficient, a *p*-value, a 95% confidence interval, and a scatter plot of mortality against vaccination coverage
 
-- **Interpretation:** the sign of the coefficient tells us whether days with higher vaccination coverage tended to have lower mortality; because both variables move over time, the association is exploratory and no causal claims are made
+-   **Interpretation:** the sign of the coefficient tells us whether days with higher vaccination coverage tended to have lower mortality; because both variables move over time, the association is exploratory and no causal claims are made
 
 #### **Model specification — RQ2b**
 
-- **Response:** `icu_patients` — number of COVID-19 patients in intensive care on a given day (`<dbl>`)
+-   **Response:** `icu_patients` — number of COVID-19 patients in intensive care on a given day (`<dbl>`)
 
-- **Predictor:** `people_vaccinated_per_hundred` — share of people with at least one dose (`<dbl>`)
+-   **Predictor:** `people_vaccinated_per_hundred` — share of people with at least one dose (`<dbl>`)
 
-- **Filter:** restricted to rows where both variables are not missing (same binding constraint as RQ2a)
+-   **Filter:** restricted to rows where both variables are not missing (same binding constraint as RQ2a)
 
-- **Method:** same as RQ2a — Pearson correlation via the theory-based `{infer}` pipeline, plus a scatter plot
+-   **Method:** same as RQ2a — Pearson correlation via the theory-based `{infer}` pipeline, plus a scatter plot
 
-- **Expected output:** the observed correlation coefficient, a *p*-value, a 95% confidence interval, and a scatter plot of ICU occupancy against vaccination coverage
+-   **Expected output:** the observed correlation coefficient, a *p*-value, a 95% confidence interval, and a scatter plot of ICU occupancy against vaccination coverage
 
-- **Interpretation:** the sign of the coefficient tells us whether days with higher vaccination coverage tended to have lower ICU occupancy; the ICU lower-bound artefact (minimum value of exactly 100, see quality checks) is kept in mind when interpreting low values, and no causal claims are made
+-   **Interpretation:** the sign of the coefficient tells us whether days with higher vaccination coverage tended to have lower ICU occupancy; the ICU lower-bound artefact (minimum value of exactly 100, see quality checks) is kept in mind when interpreting low values, and no causal claims are made
 
 #### Can the data support our RQ2? – Sanity Check
 
@@ -320,15 +320,24 @@ obs_cor_icu <- rq2_data %>%
 
 obs_cor_icu
 
+set.seed(123)
+
 null_dist_icu <- rq2_data %>%
   specify(icu_patients ~ people_vaccinated_per_hundred) %>%
-  assume("t")
+  hypothesize(null = "independence") %>%
+  generate(reps = 1000, type = "permute") %>%
+  calculate(stat = "correlation")
 
 null_dist_icu %>%
-  get_p_value(obs_stat = obs_cor_icu, direction = "two-sided")
+  get_p_value(
+    obs_stat = obs_cor_icu,
+    direction = "two-sided"
+  )
 
-cor.test(rq2_data$icu_patients,
-         rq2_data$people_vaccinated_per_hundred)
+cor.test(
+  rq2_data$icu_patients,
+  rq2_data$people_vaccinated_per_hundred
+)
 ```
 
 For RQ2a we observe a moderate negative correlation of about r = -0.53 (95% CI roughly -0.58 to -0.48), and for RQ2b a somewhat stronger negative correlation of about r = -0.65 (95% CI roughly -0.69 to -0.61). Both *p*-values are far below any conventional threshold, so a correlation of zero is not compatible with the data.
@@ -339,10 +348,10 @@ For RQ2a we observe a moderate negative correlation of about r = -0.53 (95% CI r
 
 So far, we have
 
-- imported and cleaned the dataset,
-- explored the relevant variables,
-- produced initial visualizations,
-- started investigating the relationships between vaccination coverage, mortality, and ICU occupancy.
+-   imported and cleaned the dataset,
+-   explored the relevant variables,
+-   produced initial visualizations,
+-   started investigating the relationships between vaccination coverage, mortality, and ICU occupancy.
 
 These analyses will be expanded and interpreted in greater detail in the final version of the website.
 
@@ -350,7 +359,7 @@ These analyses will be expanded and interpreted in greater detail in the final v
 
 For the final project we plan to
 
-- improve the visualizations,
-- perform additional descriptive analyses,
-- quantify the observed relationships where appropriate,
-- provide a comprehensive discussion of the findings and their limitations.
+-   improve the visualizations,
+-   perform additional descriptive analyses,
+-   quantify the observed relationships where appropriate,
+-   provide a comprehensive discussion of the findings and their limitations.
