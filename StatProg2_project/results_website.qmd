@@ -8,6 +8,7 @@ library(infer)
 
 covid_germany <- read_delim("data2/covid_germany.csv")
 ```
+
 # Results
 
 ## Research Question 1
@@ -79,10 +80,58 @@ Overall, Germany experienced a rapid increase in full vaccination coverage durin
 
 Our descriptive analysis indicates that vaccination coverage in Germany increased rapidly during the first vaccination campaign in 2021 and stabilized afterwards. This answers the first research question and provides the basis for investigating whether vaccination coverage was associated with disease severity in the following analyses.
 
-## Research Question 2a
+## Research Question 2
 
-Work in progress.
+#### Answering RQ2a: Are higher vaccination rates associated with lower COVID-19 mortality?
 
-## Research Question 2b
+```{r}
+#| fig-alt: "Scatter plot of smoothed daily COVID-19 deaths in Germany against the share of people vaccinated per hundred, from late 2020 to early 2023. Points are coloured by date. Deaths are high at low vaccination coverage in early 2021, drop in mid 2021, rise again during the winter waves, and are low at high coverage in 2022 and 2023. The overall trend is downward." 
+rq2_data %>% ggplot(aes(x = people_vaccinated_per_hundred,
+                        y = new_deaths_smoothed,
+                        colour = date)) +   
+  geom_point(alpha = 0.6) +   
+  labs(title = "Vaccination coverage and COVID-19 mortality in Germany",
+       subtitle = "Each point is one day; colour shows the date",
+       x = "People vaccinated per hundred",
+       y = "New deaths (7-day smoothed)",
+       colour = NULL,
+       caption = "Source: Our World in Data COVID-19 dataset") +       theme_minimal()
+```
 
-Work in progress.
+The scatter plot shows the negative association quantified above (r ≈ -0.53): days with higher vaccination coverage tended to have lower smoothed daily deaths. The date colouring also makes the limitation of this comparison visible. Because vaccination coverage only ever increases, the x-axis is closely tied to calendar time: points on the left are from early 2021 and points on the right from 2022/23. The high-mortality points at low coverage belong to the winter wave of early 2021, while the winter wave of 2021/22 appears as a band of elevated deaths at around 60–70 per hundred. So the negative correlation mixes two things we cannot separate here: the protective association of vaccination and everything else that changed over time (variants, seasonality, and restrictions captured in `stringency_index`).
+
+**Answer to RQ2a:** Yes — in our data, higher vaccination rates are associated with lower COVID-19 mortality (r ≈ -0.53, 95% CI -0.58 to -0.48). As stated in our analysis plan, this is an exploratory, associational result: because vaccination coverage rises monotonically over time, calendar time is a strong confounder, and we do not interpret this association causally.
+
+#### Answering RQ2b: Are higher vaccination rates associated with lower ICU occupancy?
+
+```{r}
+#| fig-alt: "Scatter plot of the number of COVID-19 ICU patients in Germany against the share of people vaccinated per hundred, from late 2020 to early 2023. Points are coloured by date. ICU occupancy is around 3000 to 5700 patients at low vaccination coverage in early 2021, falls in mid 2021, peaks again near 5000 at around 65 per hundred during the winter wave of 2021, and is mostly below 2000 at high coverage in 2022 and 2023. The overall trend is downward." 
+rq2_data %>% ggplot(aes(x = people_vaccinated_per_hundred,
+                        y = icu_patients,
+                        colour = date)) +   
+  geom_point(alpha = 0.6) +   
+  labs(title = "Vaccination coverage and ICU occupancy in Germany",
+       subtitle = "Each point is one day; colour shows the date",
+       x = "People vaccinated per hundred",
+       y = "COVID-19 patients in intensive care",
+       colour = NULL,
+       caption = "Source: Our World in Data COVID-19 dataset") +   theme_minimal()
+```
+
+The association is negative and somewhat stronger than for mortality (r ≈ -0.65): days with higher vaccination coverage tended to have fewer COVID-19 patients in intensive care. The same time-confounding caveat applies as in RQ2a. In addition, our domain-informed quality checks flagged that the minimum ICU value of exactly 100 looks like a reporting lower bound; since the values in the overlap window start at around 350 patients, this artefact does not affect the analysis here, but we note it for completeness.
+
+**Answer to RQ2b:** Yes — in our data, higher vaccination rates are associated with lower ICU occupancy (r ≈ -0.65, 95% CI -0.69 to -0.61). As with RQ2a, this is an exploratory, associational finding and not evidence of a causal effect, because vaccination coverage and calendar time are inseparable in this dataset.
+
+#### How stable is the association over time?
+
+To make the time-confounding limitation concrete rather than only stating it, we re-computed the correlations within calendar years:
+
+```{r}
+rq2_data %>%  mutate(year = factor(format(date, "%Y"))) %>% 
+  group_by(year) %>%   
+  summarise(n = n(),
+            cor_deaths = cor(people_vaccinated_per_hundred, new_deaths_smoothed),     
+            cor_icu = cor(people_vaccinated_per_hundred, icu_patients))
+```
+
+Within single years the correlations are noticeably weaker and unstable (for example, the ICU correlation is strong in 2022 but close to zero in early 2023, while the mortality correlation weakens in 2022). This confirms that a large part of the overall negative correlation is driven by the long-run trend — coverage rising while the pandemic waned — rather than by a stable day-to-day relationship. It is exactly the behaviour our analysis plan anticipated when it named time as the main confounding risk, and it is the reason we report RQ2 as exploratory.
