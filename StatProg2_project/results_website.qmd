@@ -9,6 +9,16 @@ library(infer)
 covid_germany <- read_delim("data2/covid_germany.csv")
 ```
 
+```{r}
+#| include: false
+rq2_data <- covid_germany %>%
+  filter(!is.na(people_vaccinated_per_hundred),
+         !is.na(new_deaths_smoothed),
+         !is.na(icu_patients)) %>%
+  select(date, people_vaccinated_per_hundred,
+         new_deaths_smoothed, icu_patients)
+```
+
 # Results
 
 ## Research Question 1
@@ -48,7 +58,7 @@ covid_germany %>%
     )
 ```
 
-Figure @fig-rq1-coverage shows the development of full COVID-19 vaccination coverage in Germany over time. Vaccination coverage started to increase in early 2021, when vaccination reporting became available in the dataset. During the first half of 2021, the curve rises steeply, indicating the main rollout phase of the vaccination campaign.
+@fig-rq1-coverage shows the development of full COVID-19 vaccination coverage in Germany over time. Vaccination coverage started to increase in early 2021, when vaccination reporting became available in the dataset. During the first half of 2021, the curve rises steeply, indicating the main rollout phase of the vaccination campaign.
 
 After this initial phase, the increase in full vaccination coverage slowed down considerably. Towards the end of 2021 and during 2022, the curve approaches a plateau of roughly 76–78% of the population. From this point onward, only small additional increases are visible.
 
@@ -72,7 +82,7 @@ covid_germany %>%
   theme_minimal()
 ```
 
-Figure @fig-rq1-activity shows the smoothed number of daily new vaccinations. In contrast to cumulative vaccination coverage, this variable does not increase continuously. Instead, it shows distinct waves of vaccination activity.
+@fig-rq1-activity shows the smoothed number of daily new vaccinations. In contrast to cumulative vaccination coverage, this variable does not increase continuously. Instead, it shows distinct waves of vaccination activity.
 
 The largest peak occurs during the initial rollout in 2021. After this peak, daily vaccination activity declines strongly. Later increases are visible, but they are much smaller than the first peak. These later waves may correspond to additional vaccination phases, such as booster campaigns.
 
@@ -85,6 +95,9 @@ Our descriptive analysis indicates that vaccination coverage in Germany increase
 #### Answering RQ2a: Are higher vaccination rates associated with lower COVID-19 mortality?
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 #| fig-alt: "Scatter plot of smoothed daily COVID-19 deaths in Germany against the share of people vaccinated per hundred, from late 2020 to early 2023. Points are coloured by date. Deaths are high at low vaccination coverage in early 2021, drop in mid 2021, rise again during the winter waves, and are low at high coverage in 2022 and 2023. The overall trend is downward." 
 rq2_data %>% ggplot(aes(x = people_vaccinated_per_hundred,
                         y = new_deaths_smoothed,
@@ -104,7 +117,11 @@ The scatter plot shows the negative association quantified above (r ≈ -0.53): 
 
 #### Answering RQ2b: Are higher vaccination rates associated with lower ICU occupancy?
 
+
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 #| fig-alt: "Scatter plot of the number of COVID-19 ICU patients in Germany against the share of people vaccinated per hundred, from late 2020 to early 2023. Points are coloured by date. ICU occupancy is around 3000 to 5700 patients at low vaccination coverage in early 2021, falls in mid 2021, peaks again near 5000 at around 65 per hundred during the winter wave of 2021, and is mostly below 2000 at high coverage in 2022 and 2023. The overall trend is downward." 
 rq2_data %>% ggplot(aes(x = people_vaccinated_per_hundred,
                         y = icu_patients,
@@ -127,11 +144,13 @@ The association is negative and somewhat stronger than for mortality (r ≈ -0.6
 To make the time-confounding limitation concrete rather than only stating it, we re-computed the correlations within calendar years:
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 rq2_data %>%  mutate(year = factor(format(date, "%Y"))) %>% 
   group_by(year) %>%   
   summarise(n = n(),
             cor_deaths = cor(people_vaccinated_per_hundred, new_deaths_smoothed),     
             cor_icu = cor(people_vaccinated_per_hundred, icu_patients))
 ```
-
 Within single years the correlations are noticeably weaker and unstable (for example, the ICU correlation is strong in 2022 but close to zero in early 2023, while the mortality correlation weakens in 2022). This confirms that a large part of the overall negative correlation is driven by the long-run trend — coverage rising while the pandemic waned — rather than by a stable day-to-day relationship. It is exactly the behaviour our analysis plan anticipated when it named time as the main confounding risk, and it is the reason we report RQ2 as exploratory.

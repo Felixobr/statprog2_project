@@ -280,6 +280,7 @@ covid_germany %>% filter(!is.na(people_fully_vaccinated_per_hundred)) %>% ggplot
 We prepare one analysis dataset for both sub-questions, restricted to the overlap window from the sanity check:
 
 ```{r}
+#| include: false
 rq2_data <- covid_germany %>%
   filter(!is.na(people_vaccinated_per_hundred),
          !is.na(new_deaths_smoothed),
@@ -298,17 +299,27 @@ obs_cor_deaths <- rq2_data %>%
 
 obs_cor_deaths
 
-# theoretical null distribution and p-value
+# permutation-based null distribution
+set.seed(123)
+
 null_dist_deaths <- rq2_data %>%
   specify(new_deaths_smoothed ~ people_vaccinated_per_hundred) %>%
-  assume("t")
+  hypothesize(null = "independence") %>%
+  generate(reps = 1000, type = "permute") %>%
+  calculate(stat = "correlation")
 
+# p-value
 null_dist_deaths %>%
-  get_p_value(obs_stat = obs_cor_deaths, direction = "two-sided")
+  get_p_value(
+    obs_stat = obs_cor_deaths,
+    direction = "two-sided"
+  )
 
-# confidence interval from the equivalent base R test
-cor.test(rq2_data$new_deaths_smoothed,
-         rq2_data$people_vaccinated_per_hundred)
+# theoretical Pearson correlation test and confidence interval
+cor.test(
+  rq2_data$new_deaths_smoothed,
+  rq2_data$people_vaccinated_per_hundred
+)
 ```
 
 **RQ2b: vaccination coverage and ICU occupancy**
@@ -344,22 +355,3 @@ For RQ2a we observe a moderate negative correlation of about r = -0.53 (95% CI r
 
 **One-sentence interpretation (Ex 2.4):** In the period where vaccination data exist, days with higher vaccination coverage tended to have lower COVID-19 mortality and lower ICU occupancy — an exploratory, associational finding that is consistent with our research questions but does not establish a causal effect of vaccination.
 
-# Current Progress
-
-So far, we have
-
--   imported and cleaned the dataset,
--   explored the relevant variables,
--   produced initial visualizations,
--   started investigating the relationships between vaccination coverage, mortality, and ICU occupancy.
-
-These analyses will be expanded and interpreted in greater detail in the final version of the website.
-
-# Next Steps
-
-For the final project we plan to
-
--   improve the visualizations,
--   perform additional descriptive analyses,
--   quantify the observed relationships where appropriate,
--   provide a comprehensive discussion of the findings and their limitations.
