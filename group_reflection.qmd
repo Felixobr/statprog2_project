@@ -40,7 +40,7 @@ This week there was no practical, but we finalized our proposal for the submissi
 
 ### Practical 9
 
-This week we refined our research questions. In particular, we split our original second question into questions 2a and 2b because they covered different aspects of the data. We also initialized renv, which caused a surprising number of problems. For example, renv::snapshot() repeatedly failed and took quite some time to fix. Even though we eventually managed to get everything running, working with renv remained one of the more frustrating parts of the project.
+This week we refined our research questions. In particular, we split our original second question into questions 2a and 2b because they covered different aspects of the data. We also initialized renv, which caused a surprising number of problems. For example, renv::snapshot() repeatedly failed and took quite some time to fix. Even though we eventually managed to get everything running, working with renv remained one of the more frustrating parts of the project. The problem with renv::snapshot() was, that it told us always that a large number of files have been discovered. But we were able to solve this proplem by typing renv::snapshot(packages = "plotly"), so that it does not consider every file on my computer.
 
 ### Practical 10
 

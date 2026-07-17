@@ -5,6 +5,7 @@
 library(tidyverse)
 library(skimr)
 library(infer)
+library(plotly)
 
 covid_germany <- read_delim("data2/covid_germany.csv")
 ```
@@ -69,7 +70,7 @@ After this initial phase, the increase in full vaccination coverage slowed down 
 #| message: false
 #| fig-cap: "Daily COVID-19 vaccination activity in Germany."
 
-covid_germany %>%
+p = covid_germany %>%
   filter(!is.na(new_vaccinations_smoothed)) %>%
   ggplot(aes(date, new_vaccinations_smoothed)) +
   geom_line(color = "steelblue") +
@@ -80,6 +81,8 @@ covid_germany %>%
     y = "New vaccinations"
   ) +
   theme_minimal()
+
+ggplotly(p, tooltip = "text")
 ```
 
 @fig-rq1-activity shows the smoothed number of daily new vaccinations. In contrast to cumulative vaccination coverage, this variable does not increase continuously. Instead, it shows distinct waves of vaccination activity.
