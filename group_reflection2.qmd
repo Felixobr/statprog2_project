@@ -52,51 +52,45 @@ In the beginning it only seemed hard to understand the whole structure of git an
 
 ### Quarto websites & collaborative coding (W5)
 
-*What we did:*
+*What we did:* Our entire project is a Quarto website, so this was the week whose content we used most directly. We built separate pages for the proposal, the analysis, the results and the reflection, linked through a navigation bar defined in `_quarto.yml`, and published the site so it is viewable on the web.
 
-*What worked well:*
+*What worked well:* Rendering the website our website for the first time felt like an immediate success and wasn't hard at all. Once everything was setup and we had understood the structure of a quarto website it was also not complicated to change small things later on and for example add more files to the navigation bar of the site.
 
-*What was hard:*
+*What was hard:* Correctly adding all the right chunk options to all chunks correctly was a little bit annoying. Even though some of those are already set for the whole file in the `yaml`-header (for example `warning: false`). For example we first had to decide for every chunk, whether we want to show its code on the website or not and then put `#| echo: false` (or `true`).
 
 ### R packages (W6)
 
-*What we did:*
-
-*What worked well:*
-
-*What was hard:*
+*What we did:* We did not use this skill in our project. We built a package in the practical, but our analysis is a one-off website rather than code anyone would install and reuse, so the packaging overhead would not have bought us anything.
 
 ### Initial data analysis & data cleaning (W7)
 
-*What we did:*
+*What we did:* We really learned that this part is essential for any Data Analysis project, as you can't just go and analyse data and try to answer research questions without first confirming the suitability and quality of the Data.
 
-*What worked well:*
+*What worked well:* After checking for `NA`s in the variable we used for answering Research Question 1, `people_fully_vaccinated_per_hundred`, we noticed missing data for all Dates before December 2020. This makes sense as the Covid vaccination campaign only started around this time. In other words this missing data was no problem for our Analysis, but it was important to check and find out.
 
-*What was hard:*
+*What was hard:* I wouldn't call any part of this process hard, but it took quite a long time and was quite a lot of work, more than expected.
 
 ### Reproducibility, open data & renv (W9)
 
-*What we did:*
+*What we did:* We set up `renv` for the project, generated `renv.lock` and committed it so that anyone cloning the repository can restore the same package versions.
 
 *What worked well:*
 
-*What was hard:*
+*What was hard:* Even though the idea behind it and the problems it solves are great, working with `renv` really wasn't for us. For a long time we had problems with it, `renv::status()` often warned us that something wasn't right and honestly we understood it so poorly in the beginning that I couldn't even write down what went wrong. Still we now have a `renv.lock` file in our Repo, so somehow we managed. This was made worse by one of us changing laptops during this period, so hardware problems and `renv` problems compounded each other.
 
 ### Analysis & inference strategies (W10)
 
-*What we did:*
+*What we did:* This is where our actual analysis happened. For RQ2 we tested whether vaccination coverage is associated with mortality (RQ2a) and with ICU occupancy (RQ2b), using Pearson correlation as the test statistic and a permutation test built with `{infer}` to generate the null distribution. We report effect size, sample size, the p-value and the seed rather than the p-value alone. Both associations are negative and moderate to strong (r ≈ −0.53 for RQ2a, r ≈ −0.65 for RQ2b, n = 832 over the overlap window from late December 2020 to early April 2023).
 
-*What worked well:*
+*What worked well:* Since the analysis with `{infer}` is not easy we got a lot of help from LLMs to not have to think to much about the code itself which we were working with for the very first time, but to achieve an analysis, that really tries to answer Research Question 2
 
-*What was hard:*
+*What was hard:* Interpreting the results of this analysis.
 
 ### Communication & visualisation (W11)
 
-*What we did:*
+*What we did:* We reworked the plots from our analysis into presentable figures: proper axis labels with units instead of raw variable names, titles that state what the figure shows, and `fig-alt` descriptions on every figure. We did not use `{gt}` for our project, as we decided to go with a plot rather then a table in every important analysis step, because it fittet better to communicate the results of our Research Questions (Development over time, correlation) .
 
-*What worked well:*
-
-*What was hard:*
+*What worked well:* Improving the plots we had already made was a very smooth process without any error messages for once. Especially the `#| fig-alt` option was interesting and new to us.
 
 ## Key analytical decisions
 
