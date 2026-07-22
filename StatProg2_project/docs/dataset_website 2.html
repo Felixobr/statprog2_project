@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>About – StatProg2_project - COVID-19 Vaccination in Germany</title>
+<title>dataset_website – StatProg2_project - COVID-19 Vaccination in Germany</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -101,7 +101,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Project Proposal</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./dataset_website.html"> 
+    <a class="nav-link active" href="./dataset_website.html" aria-current="page"> 
 <span class="menu-text">Dataset</span></a>
   </li>  
   <li class="nav-item">
@@ -113,7 +113,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Results</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./about.html" aria-current="page"> 
+    <a class="nav-link" href="./about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
 </ul>
@@ -132,80 +132,83 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#about-this-project" id="toc-about-this-project" class="nav-link active" data-scroll-target="#about-this-project">About This Project</a>
-  <ul class="collapse">
-  <li><a href="#authors" id="toc-authors" class="nav-link" data-scroll-target="#authors">Authors</a></li>
-  <li><a href="#course-information" id="toc-course-information" class="nav-link" data-scroll-target="#course-information">Course Information</a></li>
-  <li><a href="#data-source" id="toc-data-source" class="nav-link" data-scroll-target="#data-source">Data Source</a></li>
-  <li><a href="#software" id="toc-software" class="nav-link" data-scroll-target="#software">Software</a></li>
-  <li><a href="#reproducibility" id="toc-reproducibility" class="nav-link" data-scroll-target="#reproducibility">Reproducibility</a></li>
-  </ul></li>
+  <li><a href="#dataset" id="toc-dataset" class="nav-link active" data-scroll-target="#dataset">Dataset:</a></li>
+  <li><a href="#what-is-in-the-data-set" id="toc-what-is-in-the-data-set" class="nav-link" data-scroll-target="#what-is-in-the-data-set">What is in the data set?</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">About</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
 
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<section id="about-this-project" class="level1">
-<h1>About This Project</h1>
-<p>This website was created as part of the course <strong>Statistical Programming 2</strong> at <strong>LMU Munich</strong>.</p>
-<p>The project investigates COVID-19 vaccination coverage in Germany and its relationship with COVID-19 mortality and ICU occupancy using publicly available data from <strong>Our World in Data</strong>.</p>
-<section id="authors" class="level2">
-<h2 class="anchored" data-anchor-id="authors">Authors</h2>
+<section id="dataset" class="level2">
+<h2 class="anchored" data-anchor-id="dataset">Dataset:</h2>
 <ul>
-<li>Felix Obermaier</li>
-<li>Lukas Seibold</li>
+<li><p><strong>Source and licence:</strong></p>
+<ul>
+<li><p>The Data set is from the following website: <a href="https://ourworldindata.org/explorers/covid?Metric=Excess+mortality+%28estimates%29&amp;Interval=Cumulative&amp;Relative+to+population=true&amp;country=USA~BRA~JPN~DEU">OWID - Covid Dataset</a></p></li>
+<li><p>It can be downloaded in the following github repository: <a href="https://github.com/owid/covid-19-data/tree/master/public/data">OWID - github repository COVID</a></p></li>
+<li><p>The dataset is called owid-covid-data.csv</p></li>
+<li><p>The Dataset contains all Data on Covid in the years 2020 - 2024 in all countries of the world</p></li>
+<li><p>We decided we only want to look at german Data on covid so we filtered it by country</p></li>
+<li><p>Then we cleaned it, by removing all variables, that only contained NAs (6 variables removed)</p></li>
+<li><p>We documented the complete cleaning process in a seperate file called _cleaning_covid.qmd, which can be found in our github repository. All of the data we used is stored there as well in the folder “data”.</p></li>
+</ul></li>
+<li><p><strong>Licence:</strong></p>
+<ul>
+<li><p>The <em>Our World in Data Covid Dataset</em> combines COVID-19 data from several official and scientific sources, including:</p>
+<ul>
+<li><p><a href="https://github.com/CSSEGISandData/COVID-19?utm_source=chatgpt.com">Johns Hopkins University (JHU CSSE)</a> for confirmed cases and deaths</p></li>
+<li><p>official national health authorities for vaccination and hospitalization data</p></li>
+<li><p>the <a href="https://www.bsg.ox.ac.uk/research/research-projects/covid-19-government-response-tracker?utm_source=chatgpt.com">Oxford COVID‑19 Government Response Tracker</a> for policy measures</p></li>
+<li><p>international organizations such as the UN, World Bank, OECD, and IHME for demographic and socioeconomic indicators.</p></li>
+</ul>
+<p>The dataset is published under the <strong>Creative Commons Attribution (CC BY) license</strong>.</p>
+<p>This license allows users to:</p>
+<ul>
+<li><p>use the data freely,</p></li>
+<li><p>copy and redistribute it,</p></li>
+<li><p>modify and adapt it,</p></li>
+<li><p>use it commercially,</p></li>
+<li><p>and include it in research or presentations,</p></li>
+</ul>
+<p>as long as proper attribution to Our World in Data and the original data sources is provided.</p></li>
+</ul></li>
 </ul>
 </section>
-<section id="course-information" class="level2">
-<h2 class="anchored" data-anchor-id="course-information">Course Information</h2>
+<section id="what-is-in-the-data-set" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-in-the-data-set">What is in the data set?</h2>
+<p>The data set contains daily COVID-19 observations for Germany from January 2020 until August 2024.</p>
 <ul>
-<li>Course: Statistical Programming 2</li>
-<li>Institution: Ludwig-Maximilians-Universität München</li>
-<li>Semester: Summer Semester 2026</li>
+<li>Number of rows: 1674</li>
+<li>Number of columns: 61</li>
 </ul>
-</section>
-<section id="data-source" class="level2">
-<h2 class="anchored" data-anchor-id="data-source">Data Source</h2>
-<p>The data used in this project are provided by <strong>Our World in Data</strong>.</p>
-<p>https://ourworldindata.org/coronavirus</p>
-</section>
-<section id="software" class="level2">
-<h2 class="anchored" data-anchor-id="software">Software</h2>
-<p>This project was developed using</p>
+<p>Each row represents one day of reported COVID-19 data in Germany.</p>
+<p>The data set includes information on:</p>
 <ul>
-<li>R</li>
-<li>Quarto</li>
-<li>tidyverse</li>
-<li>ggplot2</li>
-<li>Git and GitHub</li>
+<li>COVID-19 cases (e.g.&nbsp;<code>total_cases</code>, <code>new_cases</code>, <code>new_cases_smoothed</code>)</li>
+<li>COVID-19 deaths (e.g.&nbsp;<code>total_deaths</code>, <code>new_deaths</code>)</li>
+<li>Reproduction rate (<code>reproduction_rate</code>)</li>
+<li>Hospital and ICU patients (<code>hosp_patients</code>, <code>icu_patients</code>)</li>
+<li>Vaccination indicators</li>
+<li>Testing statistics</li>
+<li>Socioeconomic indicators and demographic variables</li>
 </ul>
-</section>
-<section id="reproducibility" class="level2">
-<h2 class="anchored" data-anchor-id="reproducibility">Reproducibility</h2>
-<p>All analyses, figures, and tables shown on this website are generated directly from the source code contained in the GitHub repository.</p>
+<p>The key variables we expect to use are:</p>
+<ul>
+<li><code>date</code></li>
+<li><code>new_cases</code></li>
+<li><code>new_cases_smoothed</code></li>
+<li><code>total_cases</code></li>
+<li><code>new_deaths</code></li>
+<li><code>total_deaths</code></li>
+<li><code>reproduction_rate</code></li>
+</ul>
+<p>Throughout this project, we primarily use the smoothed variables provided in the dataset whenever they are available. Daily COVID-19 data are affected by reporting delays and systematic weekend effects, which can introduce artificial fluctuations in the time series. The smoothed variables reduce these short-term irregularities and therefore provide a better representation of the underlying trends that are relevant for our analyses. Unless otherwise stated, all analyses are based on the smoothed versions of the variables.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -282,7 +285,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/Felixobr\.github\.io\/statprog2_project\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
