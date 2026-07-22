@@ -1,0 +1,31 @@
+---
+title: "Contribution Statements"
+subtitle: "COVID-19 Vaccination in Germany — StatProg2 Group Project"
+format:
+  pdf:
+    papersize: a4
+    geometry:
+      - margin=2.5cm
+    fontsize: 11pt
+    colorlinks: true
+---
+
+## Felix Obermaier — Contribution Statement
+
+**Primarily responsible for:** project website, RQ1 analysis and results
+
+- *Building the Quarto website from scratch*
+- *Continuously update the project website while analysis progress was made*
+- *\[key task — noch ausfüllen\]*
+
+**Collaborative tasks:** *\[noch ausfüllen\]*
+
+## Lukas Seibold — Contribution Statement
+
+**Primarily responsible for:** complete Analysis RQ2 (a and b), preliminary RQ1 analysis
+
+- *Initial Data Analysis (IDA) for the proposal*
+- *improving plots (Week 11, Practical 10)*
+- *`{infer}` Analysis, RQ2*
+
+**Collaborative tasks:** Source and License, Audience and Context for our project (can be found in proposal.qmd)
