@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Felix Obermaier, Lukas Seibold">
 
 <title>COVID-19 Vaccination and Disease Severity in Germany – StatProg2_project - COVID-19 Vaccination in Germany</title>
 <style>
@@ -195,6 +196,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Felix Obermaier, Lukas Seibold </p>
+          </div>
+  </div>
     
   
     
@@ -253,79 +260,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="can-the-data-support-our-rq1-sanity-check" class="level4">
 <h4 class="anchored" data-anchor-id="can-the-data-support-our-rq1-sanity-check">Can the data support our RQ1? – Sanity Check</h4>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(covid_germany)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>covid_germany <span class="sc">%&gt;%</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, people_fully_vaccinated_per_hundred, new_vaccinations_smoothed) <span class="sc">%&gt;%</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 1,674
-Columns: 61
-$ iso_code                                   &lt;chr&gt; "DEU", "DEU", "DEU", "DEU",…
-$ continent                                  &lt;chr&gt; "Europe", "Europe", "Europe…
-$ location                                   &lt;chr&gt; "Germany", "Germany", "Germ…
-$ date                                       &lt;date&gt; 2020-01-05, 2020-01-06, 20…
-$ total_cases                                &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, …
-$ new_cases                                  &lt;dbl&gt; 1, 0, 0, 0, 0, 0, 0, 0, 0, …
-$ new_cases_smoothed                         &lt;dbl&gt; NA, NA, NA, NA, NA, 0.14, 0…
-$ total_deaths                               &lt;dbl&gt; 3, 3, 3, 3, 3, 3, 3, 3, 3, …
-$ new_deaths                                 &lt;dbl&gt; 3, 0, 0, 0, 0, 0, 0, 0, 0, …
-$ new_deaths_smoothed                        &lt;dbl&gt; NA, NA, NA, NA, NA, 0.43, 0…
-$ total_cases_per_million                    &lt;dbl&gt; 0.01, 0.01, 0.01, 0.01, 0.0…
-$ new_cases_per_million                      &lt;dbl&gt; 0.01, 0.00, 0.00, 0.00, 0.0…
-$ new_cases_smoothed_per_million             &lt;dbl&gt; NA, NA, NA, NA, NA, 0, 0, 0…
-$ total_deaths_per_million                   &lt;dbl&gt; 0.04, 0.04, 0.04, 0.04, 0.0…
-$ new_deaths_per_million                     &lt;dbl&gt; 0.04, 0.00, 0.00, 0.00, 0.0…
-$ new_deaths_smoothed_per_million            &lt;dbl&gt; NA, NA, NA, NA, NA, 0, 0, 0…
-$ reproduction_rate                          &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ icu_patients                               &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ icu_patients_per_million                   &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ weekly_icu_admissions                      &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ weekly_icu_admissions_per_million          &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ weekly_hosp_admissions                     &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ weekly_hosp_admissions_per_million         &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ total_tests                                &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ total_tests_per_thousand                   &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ new_tests_smoothed                         &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ new_tests_smoothed_per_thousand            &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ positive_rate                              &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ tests_per_case                             &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ tests_units                                &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ total_vaccinations                         &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ people_vaccinated                          &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ people_fully_vaccinated                    &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ total_boosters                             &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ new_vaccinations                           &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ new_vaccinations_smoothed                  &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ total_vaccinations_per_hundred             &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ people_vaccinated_per_hundred              &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ people_fully_vaccinated_per_hundred        &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ total_boosters_per_hundred                 &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ new_vaccinations_smoothed_per_million      &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ new_people_vaccinated_smoothed             &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ new_people_vaccinated_smoothed_per_hundred &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA,…
-$ stringency_index                           &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.0…
-$ population_density                         &lt;dbl&gt; 237.02, 237.02, 237.02, 237…
-$ median_age                                 &lt;dbl&gt; 46.6, 46.6, 46.6, 46.6, 46.…
-$ aged_65_older                              &lt;dbl&gt; 21.45, 21.45, 21.45, 21.45,…
-$ aged_70_older                              &lt;dbl&gt; 15.96, 15.96, 15.96, 15.96,…
-$ gdp_per_capita                             &lt;dbl&gt; 45229.24, 45229.24, 45229.2…
-$ cardiovasc_death_rate                      &lt;dbl&gt; 156.14, 156.14, 156.14, 156…
-$ diabetes_prevalence                        &lt;dbl&gt; 8.31, 8.31, 8.31, 8.31, 8.3…
-$ female_smokers                             &lt;dbl&gt; 28.2, 28.2, 28.2, 28.2, 28.…
-$ male_smokers                               &lt;dbl&gt; 33.1, 33.1, 33.1, 33.1, 33.…
-$ hospital_beds_per_thousand                 &lt;dbl&gt; 8, 8, 8, 8, 8, 8, 8, 8, 8, …
-$ life_expectancy                            &lt;dbl&gt; 81.33, 81.33, 81.33, 81.33,…
-$ human_development_index                    &lt;dbl&gt; 0.95, 0.95, 0.95, 0.95, 0.9…
-$ population                                 &lt;dbl&gt; 83369840, 83369840, 8336984…
-$ excess_mortality_cumulative_absolute       &lt;dbl&gt; -760.7, NA, NA, NA, NA, NA,…
-$ excess_mortality_cumulative                &lt;dbl&gt; -3.87, NA, NA, NA, NA, NA, …
-$ excess_mortality                           &lt;dbl&gt; -3.87, NA, NA, NA, NA, NA, …
-$ excess_mortality_cumulative_per_million    &lt;dbl&gt; -9.13, NA, NA, NA, NA, NA, …</code></pre>
+Columns: 3
+$ date                                &lt;date&gt; 2020-01-05, 2020-01-06, 2020-01-0…
+$ people_fully_vaccinated_per_hundred &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA…
+$ new_vaccinations_smoothed           &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA…</code></pre>
 </div>
 </div>
-<p>We confirmed that <code>date</code>, <code>people_fully_vaccinated_per_hundred</code> and <code>new_vaccinations_smoothed</code>have the correct data types in order for us to create the planned line plot (Date and double) using glimpse().</p>
+<p>We confirmed that <code>date</code>, <code>people_fully_vaccinated_per_hundred</code> and <code>new_vaccinations_smoothed</code> have the correct data types in order for us to create the planned line plot (Date and double) using glimpse().</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#check variable people_fully_vaccinated_per_hundred</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>covid_germany <span class="sc">%&gt;%</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(people_fully_vaccinated_per_hundred)) <span class="sc">%&gt;%</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">start =</span> <span class="fu">min</span>(date), <span class="at">end =</span> <span class="fu">max</span>(date))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>covid_germany <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(people_fully_vaccinated_per_hundred)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">start =</span> <span class="fu">min</span>(date), <span class="at">end =</span> <span class="fu">max</span>(date))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
   start      end       
@@ -346,10 +296,9 @@ $ excess_mortality_cumulative_per_million    &lt;dbl&gt; -9.13, NA, NA, NA, NA, 
 </div>
 <p>The Data coverage on vaccination starts in January of 2021 and ends in July of 2023. In this time range the data coverage is very good with a maximum gap of 1 day without coverage.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#check variable new_vaccinations_smoothed</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>covid_germany <span class="sc">%&gt;%</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(new_vaccinations_smoothed)) <span class="sc">%&gt;%</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">start =</span> <span class="fu">min</span>(date), <span class="at">end =</span> <span class="fu">max</span>(date))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>covid_germany <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(new_vaccinations_smoothed)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">start =</span> <span class="fu">min</span>(date), <span class="at">end =</span> <span class="fu">max</span>(date))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
   start      end       
@@ -368,7 +317,7 @@ $ excess_mortality_cumulative_per_million    &lt;dbl&gt; -9.13, NA, NA, NA, NA, 
 1       1</code></pre>
 </div>
 </div>
-<p>By using the same method as before we now found out that the data for <code>new_vaccinations_smoothed</code>ranges from December 2020 until July 2023 datewise. Also just like with <code>people_fully_vaccinated_per_hundred</code> the coverage for this variable is very good.</p>
+<p>By using the same method as before we now found out that the data for <code>new_vaccinations_smoothed</code> ranges from December 2020 until July 2023 datewise. Also just like with <code>people_fully_vaccinated_per_hundred</code> the coverage for this variable is very good.</p>
 <p>As we explored in the <em>Domain-informed quality checks</em> part of our Proposal, the values of <code>people_fully_vaccinated_per_hundred</code> ranges from 0 to 78, which is enough variation to detect distinct phases over the available period.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>covid_germany <span class="sc">%&gt;%</span></span>
@@ -452,7 +401,7 @@ $ excess_mortality_cumulative_per_million    &lt;dbl&gt; -9.13, NA, NA, NA, NA, 
 <li><p><strong>Response:</strong> <code>new_deaths_smoothed</code> — daily new confirmed COVID-19 deaths, 7-day smoothed (<code>&lt;dbl&gt;</code>)</p></li>
 <li><p><strong>Predictor:</strong> <code>people_vaccinated_per_hundred</code> — share of people with at least one dose (<code>&lt;dbl&gt;</code>)</p></li>
 <li><p><strong>Filter:</strong> restricted to rows where both variables are not missing (vaccination reporting only begins in late December 2020, which is the binding constraint)</p></li>
-<li><p><strong>Method:</strong> Pearson correlation between the two variables, tested with the theory-based <code>{infer}</code> pipeline (<code>specify() → assume("t")</code> / <code>calculate(stat = "correlation")</code>), plus a scatter plot to inspect the shape of the relationship</p></li>
+<li><p><strong>Method:</strong> Pearson correlation, tested with a permutation-based {infer} pipeline (<code>specify()</code> → <code>hypothesize()</code> → <code>generate()</code> → <code>calculate()</code>) for the p-value, complemented by <code>cor.test()</code> for the theory-based 95 % confidence interval; plus a scatter plot.</p></li>
 <li><p><strong>Expected output:</strong> the observed correlation coefficient, a <em>p</em>-value, a 95% confidence interval, and a scatter plot of mortality against vaccination coverage</p></li>
 <li><p><strong>Interpretation:</strong> the sign of the coefficient tells us whether days with higher vaccination coverage tended to have lower mortality; because both variables move over time, the association is exploratory and no causal claims are made</p></li>
 </ul>
@@ -622,22 +571,17 @@ Explanatory: people_vaccinated_per_hu...
 <span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">obs_stat =</span> obs_cor_deaths,</span>
 <span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">direction =</span> <span class="st">"two-sided"</span></span>
 <span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Please be cautious in reporting a p-value of 0. This result is an approximation
-based on the number of `reps` chosen in the `generate()` step.
-ℹ See `get_p_value()` (`?infer::get_p_value()`) for more information.</code></pre>
-</div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
   p_value
     &lt;dbl&gt;
 1       0</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># theoretical Pearson correlation test and confidence interval</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  rq2_data<span class="sc">$</span>new_deaths_smoothed,</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  rq2_data<span class="sc">$</span>people_vaccinated_per_hundred</span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># theoretical Pearson correlation test and confidence interval</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  rq2_data<span class="sc">$</span>new_deaths_smoothed,</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  rq2_data<span class="sc">$</span>people_vaccinated_per_hundred</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Pearson's product-moment correlation
@@ -654,11 +598,11 @@ sample estimates:
 </div>
 <p><strong>RQ2b: vaccination coverage and ICU occupancy</strong></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>obs_cor_icu <span class="ot">&lt;-</span> rq2_data <span class="sc">%&gt;%</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(icu_patients <span class="sc">~</span> people_vaccinated_per_hundred) <span class="sc">%&gt;%</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"correlation"</span>)</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>obs_cor_icu</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>obs_cor_icu <span class="ot">&lt;-</span> rq2_data <span class="sc">%&gt;%</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(icu_patients <span class="sc">~</span> people_vaccinated_per_hundred) <span class="sc">%&gt;%</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"correlation"</span>)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>obs_cor_icu</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Response: icu_patients (numeric)
 Explanatory: people_vaccinated_per_hundred (...
@@ -667,34 +611,29 @@ Explanatory: people_vaccinated_per_hundred (...
    &lt;dbl&gt;
 1 -0.654</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>null_dist_icu <span class="ot">&lt;-</span> rq2_data <span class="sc">%&gt;%</span></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(icu_patients <span class="sc">~</span> people_vaccinated_per_hundred) <span class="sc">%&gt;%</span></span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"independence"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"permute"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"correlation"</span>)</span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>null_dist_icu <span class="sc">%&gt;%</span></span>
-<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_p_value</span>(</span>
-<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">obs_stat =</span> obs_cor_icu,</span>
-<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">direction =</span> <span class="st">"two-sided"</span></span>
-<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Please be cautious in reporting a p-value of 0. This result is an approximation
-based on the number of `reps` chosen in the `generate()` step.
-ℹ See `get_p_value()` (`?infer::get_p_value()`) for more information.</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>null_dist_icu <span class="ot">&lt;-</span> rq2_data <span class="sc">%&gt;%</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(icu_patients <span class="sc">~</span> people_vaccinated_per_hundred) <span class="sc">%&gt;%</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"independence"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">"permute"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">"correlation"</span>)</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>null_dist_icu <span class="sc">%&gt;%</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_p_value</span>(</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">obs_stat =</span> obs_cor_icu,</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">direction =</span> <span class="st">"two-sided"</span></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
   p_value
     &lt;dbl&gt;
 1       0</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(</span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  rq2_data<span class="sc">$</span>icu_patients,</span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  rq2_data<span class="sc">$</span>people_vaccinated_per_hundred</span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  rq2_data<span class="sc">$</span>icu_patients,</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  rq2_data<span class="sc">$</span>people_vaccinated_per_hundred</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Pearson's product-moment correlation
