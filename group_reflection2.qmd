@@ -34,7 +34,7 @@ Understanding and fixing Errors with the help of LLMs. Thankfully with the help 
 
 *What was hard:*
 
-Because of working in different quarto documents (proposal, analysis_website, results_website etc.) with similar contents we often got the error message "object 'xy' not found", because for example we had the chunk where an object was defined in only one of those three quarto documents at first, even though we were using it in all three. Of course after noticing it that is an easy fix, but working across diffrent documents was a little hard in the beginning.
+Because of working in different quarto documents (proposal, analysis_website, results_website etc.) with similar contents we often got the error message "object 'xy' not found", because for example we had the chunk where an object was defined in only one of those three quarto documents at first, even though we were using it in all three. Of course after noticing it that is an easy fix, but working across different documents was a little hard in the beginning.
 
 ### Version control & remotes (W4)
 
@@ -96,13 +96,19 @@ In the beginning it only seemed hard to understand the whole structure of git an
 
 Describe 2–3 decisions that had a meaningful effect on your results or workflow.
 
-### Decision 1: \[short title\]
+### Decision 1: using smoothed variables
 
 *What were we deciding between?*
 
+Whether we should use the smoothed variables, which are calculated by the mean within one week of the non smoothed ones with the same value then every day, or the non smoothed variables.
+
 *How did we reason through it?*
 
+We decided to use the smoothed variables, because, for example, our daily vaccination activity plot (@fig-rq1-activity in results) would have many jump points otherwise.
+
 *In hindsight, would we decide differently?*
+
+Not at all, because our decision made plots look better and smoother, and it had no influence on the interpretation, even if it can hide short term changes (which were not that important to us).
 
 ### Decision 2: \[short title\]
 
@@ -116,22 +122,72 @@ Describe 2–3 decisions that had a meaningful effect on your results or workflo
 
 *How did we divide work across group members?*
 
+We divided the work between the two of us almost per task: one of us should implement the website, the other one RQ1 again the other one RQ2a and RQ2b. But often we did this with test files, which we reviewed together before pushing them to github. Like this we could work parallel almost the entire time, but the final decisions we always made together.
+
 *What branching or Git workflow did we actually use — and did it match the proposal?*
+
+One of us worked only within the command line with git and one of us mostly used github desktop. Our main workflow consisted of pulling the newest version, editing files locally, committing changes and pushing them to GitHub. Most development took place on the `main` branch, while the `gh-pages` branch was used to publish the Quarto website. Working only on the main branch was possible because we were a small group of two.
 
 *What would we change about how we coordinated?*
 
-## LLM usage
+One thing we would change, to be more clear who works on which file at which time. Because by not doing so at certain times, we got merge conflicts and were uncertain if one is working on the newest version. But to be honest, different from that we would not change much, because that, for example, some project structure changes by time rather made our project better than holding onto some structure from the very start (for example referring to making out of three RQ only two).
+
+LLM usage
 
 Describe up to 5 significant uses of an LLM tool during the project.
 
-### Usage 1: \[task\]
+### Usage 1: debugging
 
-- **Tool / model:**
-- **What it produced:**
-- **What we had to correct or verify:**
+-   **Tool / model:**
 
-### Usage 2: \[task\]
+    ChatGPT and Claude
 
-- **Tool / model:**
-- **What it produced:**
-- **What we had to correct or verify:**
+-   **What it produced:**
+
+    We used an LLM to help identify and correct errors in our codes, for example when filtering data, or creating ggplot visualisations.
+
+-   **What we had to correct or verify:**
+
+    We had to test LLM written code, whether a plot looked like we imagined it to look, or if some outcome in general looked like we had imagined it.
+
+### Usage 2: improving visualisations
+
+-   **Tool / model:**
+
+    ChatGPT and Claude
+
+-   **What it produced:**
+
+    We used an LLM to suggest improvements to plot labels, legends, axis formatting and themes. We then selected and modified the suggestions to make the figures consistent with the rest of the website.
+
+-   **What we had to correct or verify:**
+
+    We had to look at the plots ourself and had to verify that it looked the way we imagined it.
+
+### Usage 3: solving problems with git, renv, ...
+
+-   **Tool / model:**
+
+    -   ChatGPT and Claude
+
+-   **What it produced:**
+
+    When we encountered and ran into same error with git, like our first merge conflict or not being able to push for some reason, the LLM could always solve the problem quickly. The same it was with renv where we were always in the wrong path and did not realize it, but after some conversation with the LLM we solved these problems. It actually led to some further learning process for us.
+
+-   **What we had to correct or verify:**
+
+    We simply had to do what the LLM told us to do and than had to check f it actually worked. If not we went back to the roots and started asking again why it did not work.
+
+### Usage 4: Reviewing structure and wording
+
+-   **Tool / model:**
+
+    -   ChatGPT and Claude
+
+-   **What it produced:**
+
+    We used an LLM to review the structure and wording of parts of the proposal, README, analysis and reflection.
+
+-   **What we had to correct or verify:**
+
+    Not a lot, just that nothing changed and that the outcome meets our expectations.
