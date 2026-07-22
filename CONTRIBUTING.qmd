@@ -14,18 +14,18 @@ format:
 
 **Primarily responsible for:** project website, RQ1 analysis and results
 
-- *Building the Quarto website from scratch*
-- *Continuously update the project website while analysis progress was made*
-- *\[key task — noch ausfüllen\]*
+-   *Building the Quarto website from scratch*
+-   *Continuously update the project website while analysis progress was made*
+-   *RQ1, presenting visualizations and results on the project website*
 
-**Collaborative tasks:** *\[noch ausfüllen\]*
+**Collaborative tasks:** Together, we defined and refined the research questions and overall analysis plan. We jointly discussed methodological decisions, reviewed each other’s code, plots and interpretations, and improved the analyses based on mutual feedback. We also worked together on the proposal, README, group reflection, final project structure and the preparation of the final submission.
 
 ## Lukas Seibold — Contribution Statement
 
 **Primarily responsible for:** complete Analysis RQ2 (a and b), preliminary RQ1 analysis
 
-- *Initial Data Analysis (IDA) for the proposal*
-- *improving plots (Week 11, Practical 10)*
-- *`{infer}` Analysis, RQ2*
+-   *Initial Data Analysis (IDA) for the proposal*
+-   *improving plots (Week 11, Practical 10)*
+-   *`{infer}` Analysis, RQ2*
 
-**Collaborative tasks:** Source and License, Audience and Context for our project (can be found in proposal.qmd)
+**Collaborative tasks:** Together, we defined and refined the research questions and overall analysis plan. We jointly discussed methodological decisions, reviewed each other’s code, plots and interpretations, and improved the analyses based on mutual feedback. We also worked together on the proposal, README, group reflection, final project structure and the preparation of the final submission.
